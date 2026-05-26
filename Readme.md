@@ -18,12 +18,12 @@ Track income, expenses, and financial activity in one place with clarity and con
 
 CoinTracker helps users manage personal finances efficiently.
 
+ Track income and expenses  
+ Monitor financial history  
+ Analyze spending patterns  
+ Maintain financial discipline  
+ 
 </div>
-
-- Track income and expenses  
-- Monitor financial history  
-- Analyze spending patterns  
-- Maintain financial discipline  
 
 ---
 
