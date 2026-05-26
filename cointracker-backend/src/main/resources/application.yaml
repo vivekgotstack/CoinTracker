@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: cointracker-backend
+  profiles:
+    active: ${ACTIVE_PROFILE}
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER_NAME}
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 20000
+      max-lifetime: 1800000
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update # don't forgt to use validate or none in production
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp-relay.brevo.com
+    port: 587
+    protocol: smtp
+    username: ${BREVO_USERNAME}
+    password: ${BREVO_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp-relay.brevo.com
+
+app:
+  base-url: ${BASE_URL}
+  mail:
+    from: ${BREVO_EMAIL}
+  frontend-url: ${FRONTEND_URL}
+
+jwt:
+  access-token-expiry: 86400
+  secret:
+    key: ${SECRET_KEY}
+
+server:
+  port: ${PORT:8080}
