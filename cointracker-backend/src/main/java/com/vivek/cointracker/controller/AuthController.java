@@ -67,7 +67,7 @@ public class AuthController {
     }
 
     @GetMapping("/ping")
-    public ResponseEntity<String> renderHack() {
-        return ResponseEntity.ok("Service Alive");
+    public String renderHack() {
+        return "Service Alive";
     }
 }
