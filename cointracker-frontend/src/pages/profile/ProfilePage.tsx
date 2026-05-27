@@ -11,16 +11,31 @@ type ProfileForm = {
   displayName: string
 }
 
+const DISPLAY_NAME_MAX_LENGTH = 15
+
 const ProfilePage = () => {
   const [form] = Form.useForm<ProfileForm>()
   const navigate = useNavigate()
   const { user } = useAuth()
   const { preferences, updatePreferences } = useUserPreferences()
-  const displayName = getPreferredDisplayName(preferences.displayName, user?.email).slice(0, 15)
   const [isEditingName, setIsEditingName] = useState(false)
 
+  const displayName = getPreferredDisplayName(
+    preferences.displayName,
+    user?.email
+  ).slice(0, DISPLAY_NAME_MAX_LENGTH)
+
   const handleSaveName = (values: ProfileForm) => {
-    updatePreferences({ displayName: values.displayName.trim().slice(0, 15) })
+    const cleanedDisplayName = values.displayName.trim().slice(0, DISPLAY_NAME_MAX_LENGTH)
+
+    updatePreferences({
+      displayName: cleanedDisplayName,
+    })
+
+    form.setFieldsValue({
+      displayName: cleanedDisplayName,
+    })
+
     setIsEditingName(false)
     message.success('Display name updated')
   }
@@ -52,7 +67,11 @@ const ProfilePage = () => {
             <EmojiField
               value={preferences.avatarEmoji}
               fallback={'\u{1F642}'}
-              onChange={(avatarEmoji) => updatePreferences({ avatarEmoji: avatarEmoji ?? '\u{1F642}' })}
+              onChange={(avatarEmoji) =>
+                updatePreferences({
+                  avatarEmoji: avatarEmoji ?? '\u{1F642}',
+                })
+              }
             />
           </div>
         </div>
@@ -64,7 +83,9 @@ const ProfilePage = () => {
             <Edit3 className="text-(--primary)" size={20} />
             <div>
               <h3 className="text-lg font-semibold text-(--foreground)">Display Name</h3>
-              <p className="text-sm text-(--muted)">Choose the name shown in your header and profile.</p>
+              <p className="text-sm text-(--muted)">
+                Choose the name shown in your header and profile.
+              </p>
             </div>
           </div>
 
@@ -82,23 +103,39 @@ const ProfilePage = () => {
                   className="mb-0"
                   rules={[
                     { required: true, message: 'Display name is required' },
-                    { max: 15, message: 'Keep it under 15 characters' },
+                    {
+                      max: DISPLAY_NAME_MAX_LENGTH,
+                      message: `Keep it under ${DISPLAY_NAME_MAX_LENGTH} characters`,
+                    },
                   ]}
                 >
-                  <Input maxLength={15} placeholder="Your name" />
+                  <Input
+                    maxLength={DISPLAY_NAME_MAX_LENGTH}
+                    showCount
+                    placeholder="Your name"
+                  />
                 </Form.Item>
+
                 <Button type="primary" htmlType="submit">
                   Save
                 </Button>
-                <Button onClick={() => setIsEditingName(false)}>Cancel</Button>
+
+                <Button onClick={() => setIsEditingName(false)}>
+                  Cancel
+                </Button>
               </div>
             </Form>
           ) : (
             <div className="flex flex-col gap-3 rounded-2xl bg-(--surface-muted) p-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-(--muted)">Current name</p>
-                <p className="brand-font text-lg font-bold text-(--foreground)">{displayName}</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-(--muted)">
+                  Current name
+                </p>
+                <p className="brand-font text-lg font-bold text-(--foreground)">
+                  {displayName}
+                </p>
               </div>
+
               <Button
                 icon={<Edit3 size={15} />}
                 onClick={() => {
@@ -113,12 +150,16 @@ const ProfilePage = () => {
 
           <div className="mt-6">
             <Descriptions bordered column={1}>
-              <Descriptions.Item label="Email">{user?.email ?? 'Unknown'}</Descriptions.Item>
+              <Descriptions.Item label="Email">
+                {user?.email ?? 'Unknown'}
+              </Descriptions.Item>
+
               <Descriptions.Item label="Role">
                 <Tag icon={<ShieldCheck size={14} />} color="blue">
                   {user?.role ?? 'USER'}
                 </Tag>
               </Descriptions.Item>
+
               <Descriptions.Item label="Profile icon">
                 <span className="text-xl">{preferences.avatarEmoji}</span>
               </Descriptions.Item>
@@ -133,7 +174,9 @@ const ProfilePage = () => {
               <div>
                 <h3 className="font-semibold text-(--foreground)">Privacy Mode</h3>
                 <p className="text-sm text-(--muted)">
-                  {preferences.hideAmounts ? 'Amounts are hidden across your money views.' : 'Amounts are visible across your money views.'}
+                  {preferences.hideAmounts
+                    ? 'Amounts are hidden across your money views.'
+                    : 'Amounts are visible across your money views.'}
                 </p>
               </div>
             </div>
@@ -145,7 +188,9 @@ const ProfilePage = () => {
               <div>
                 <h3 className="font-semibold text-(--foreground)">Newsletter</h3>
                 <p className="text-sm text-(--muted)">
-                  {preferences.newsletterSubscribed ? 'Subscribed to money notes.' : 'Newsletter is paused.'}
+                  {preferences.newsletterSubscribed
+                    ? 'Subscribed to money notes.'
+                    : 'Newsletter is paused.'}
                 </p>
               </div>
             </div>
@@ -158,7 +203,9 @@ const ProfilePage = () => {
                 <h3 className="font-semibold text-(--foreground)">Digest</h3>
                 <p className="text-sm text-(--muted)">
                   {preferences.digestEnabled
-                    ? `${preferences.digestFrequency.charAt(0).toUpperCase() + preferences.digestFrequency.slice(1)} reminders are on.`
+                    ? `${preferences.digestFrequency.charAt(0).toUpperCase()}${preferences.digestFrequency.slice(
+                        1
+                      )} reminders are on.`
                     : 'Digest reminders are off.'}
                 </p>
               </div>
@@ -170,7 +217,10 @@ const ProfilePage = () => {
               <Palette className="mt-1 text-(--primary)" size={20} />
               <div className="flex-1">
                 <h3 className="font-semibold text-(--foreground)">Personalize</h3>
-                <p className="text-sm text-(--muted)">Tune the app mood, privacy, and updates.</p>
+                <p className="text-sm text-(--muted)">
+                  Tune the app mood, privacy, and updates.
+                </p>
+
                 <Button className="mt-4" onClick={() => navigate('/settings')}>
                   Open settings
                 </Button>
