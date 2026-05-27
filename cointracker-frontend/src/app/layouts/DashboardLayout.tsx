@@ -3,6 +3,7 @@ import Sidebar from '@/components/shared/Sidebar'
 import Navbar from '@/components/shared/Navbar'
 import { useAuth } from '@/hooks/UseAuth'
 import MobileNav from '@/components/shared/MobileNav'
+import InstallPrompt from '@/components/shared/InstallPrompt'
 
 const DashboardLayout = () => {
   const { user } = useAuth()
@@ -22,6 +23,7 @@ const DashboardLayout = () => {
       </div>
 
       <MobileNav />
+      <InstallPrompt />
     </div>
   )
 }

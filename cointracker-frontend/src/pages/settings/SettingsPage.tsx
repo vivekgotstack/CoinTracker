@@ -1,5 +1,5 @@
 import { Button, Form, Input, Segmented, Select, Switch, message } from 'antd'
-import { Bell, EyeOff, Mail, Moon, ShieldCheck, Sun } from 'lucide-react'
+import { Bell, EyeOff, Mail, Moon, ShieldCheck, Sun, Table2 } from 'lucide-react'
 import { forgotPassword } from '@/lib/auth-api'
 import { getApiErrorMessage } from '@/lib/errors'
 import { useTheme } from '@/contexts/ThemeContext'
@@ -88,6 +88,27 @@ const SettingsPage = () => {
                 <Switch
                   checked={preferences.hideAmounts}
                   onChange={(hideAmounts) => updatePreferences({ hideAmounts })}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+        <div className="glass-panel rounded-3xl p-5">
+          <div className="flex items-start gap-3">
+            <Table2 className="mt-1 text-[var(--primary)]" size={20} />
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold text-[var(--foreground)]">Compact Tables</h2>
+              <p className="text-sm text-[var(--muted)]">
+                Tighten transaction and category rows so mobile screens feel cleaner.
+              </p>
+              <div className="mt-5 flex items-center justify-between rounded-2xl bg-[var(--surface-muted)] p-4">
+                <span className="text-sm font-medium text-[var(--foreground)]">Use compact rows</span>
+                <Switch
+                  checked={preferences.compactTables}
+                  onChange={(compactTables) => updatePreferences({ compactTables })}
                 />
               </div>
             </div>

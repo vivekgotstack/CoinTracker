@@ -7,6 +7,7 @@ export type UserPreferences = {
   avatarEmoji: string
   displayName: string
   hideAmounts: boolean
+  compactTables: boolean
   newsletterSubscribed: boolean
   digestEnabled: boolean
   digestFrequency: DigestFrequency
@@ -23,6 +24,7 @@ const defaultPreferences: UserPreferences = {
   avatarEmoji: '\u{1F642}',
   displayName: '',
   hideAmounts: false,
+  compactTables: false,
   newsletterSubscribed: true,
   digestEnabled: true,
   digestFrequency: 'weekly',

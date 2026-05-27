@@ -73,7 +73,7 @@ const Navbar = ({ user }: NavbarProps) => {
 
           <Button aria-label="Open settings" icon={<Settings size={16} />} onClick={() => navigate('/settings')} />
 
-          <Button icon={<LogOut size={16} />} onClick={logout} className="hidden sm:inline-flex">
+          <Button icon={<LogOut size={16} />} onClick={logout} className="hidden lg:inline-flex">
             Logout
           </Button>
         </div>

@@ -206,7 +206,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
           columns={columns}
           dataSource={transactions.data?.content ?? []}
           loading={transactions.isLoading}
-          size="middle"
+          size={preferences.compactTables ? 'small' : 'middle'}
           scroll={{ x: 720 }}
           className="overflow-hidden rounded-2xl"
           pagination={{

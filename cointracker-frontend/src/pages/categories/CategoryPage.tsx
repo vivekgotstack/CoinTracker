@@ -14,6 +14,7 @@ import { getApiErrorMessage } from '@/lib/errors'
 import { formatDate } from '@/lib/format'
 import { normalizeEmojiIcon, renderEntityIcon } from '@/lib/icons'
 import type { Category, CategoryRequest } from '@/types/category'
+import { useUserPreferences } from '@/contexts/UserPreferencesContext'
 
 const typeOptions = [
   { label: 'Income', value: 'INCOME' },
@@ -29,6 +30,7 @@ const CategoryPage = () => {
   const createMutation = useCreateCategory()
   const updateMutation = useUpdateCategory()
   const deleteMutation = useDeleteCategory()
+  const { preferences } = useUserPreferences()
 
   const openCreate = () => {
     setEditing(null)
@@ -146,7 +148,7 @@ const CategoryPage = () => {
             columns={columns}
             dataSource={categories.data}
             loading={categories.isLoading}
-            size="middle"
+            size={preferences.compactTables ? 'small' : 'middle'}
             scroll={{ x: 720 }}
             className="overflow-hidden rounded-2xl"
             pagination={{ pageSize: 8 }}
