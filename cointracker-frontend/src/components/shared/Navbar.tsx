@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button, Grid } from 'antd'
 import { LogOut, Moon, Settings, Sun } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { useMemo } from 'react'
@@ -18,9 +18,12 @@ const Navbar = ({ user }: NavbarProps) => {
   const navigate = useNavigate()
   const { isDark, toggleTheme } = useTheme()
   const { preferences } = useUserPreferences()
+  const screens = Grid.useBreakpoint()
   const displayName = getPreferredDisplayName(preferences.displayName, user?.email).slice(0, 10)
   const hasCustomName = preferences.displayName.trim().length > 0
   const isFirstLogin = useMemo(() => consumeFirstLogin(user?.email), [user?.email])
+  const showFullLogout = screens.xxl === true
+  const showCompactLogout = !showFullLogout
 
   const logout = () => {
     clearSession()
@@ -73,16 +76,13 @@ const Navbar = ({ user }: NavbarProps) => {
 
           <Button aria-label="Open settings" icon={<Settings size={16} />} onClick={() => navigate('/settings')} />
 
-          <Button
-            aria-label="Logout"
-            icon={<LogOut size={16} />}
-            onClick={logout}
-            className="hidden sm:inline-flex 2xl:hidden"
-          />
+          {showCompactLogout ? <Button aria-label="Logout" icon={<LogOut size={16} />} onClick={logout} /> : null}
 
-          <Button icon={<LogOut size={16} />} onClick={logout} className="hidden 2xl:inline-flex">
-            Logout
-          </Button>
+          {showFullLogout ? (
+            <Button icon={<LogOut size={16} />} onClick={logout}>
+              Logout
+            </Button>
+          ) : null}
         </div>
       </div>
     </header>

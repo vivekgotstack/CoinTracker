@@ -143,7 +143,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
   const columns: ColumnsType<Transaction> = compactTable
     ? [
         {
-          title: 'Transaction',
+          title: 'Transactions',
           dataIndex: 'name',
           render: (_, transaction) => (
             <div className="flex min-w-0 items-center gap-2">
@@ -153,7 +153,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
               <div className="min-w-0">
                 <p className="truncate font-medium text-[var(--foreground)]">{transaction.name}</p>
                 <p className="truncate text-xs text-[var(--muted)]">
-                  {formatDate(transaction.date)} · Category #{transaction.categoryId}
+                  {formatDate(transaction.date)} - Category #{transaction.categoryId}
                 </p>
               </div>
             </div>
