@@ -2,11 +2,9 @@
 
 # 💰 CoinTracker
 
-### A Modern Personal Money Management System
+### Full-Stack Personal Finance Tracker
 
-Track income, expenses, and financial activity in one place with clarity and control.
-
----
+Track income, expenses, and financial activity through a secure and simple dashboard.
 
 </div>
 
@@ -14,111 +12,191 @@ Track income, expenses, and financial activity in one place with clarity and con
 
 <div align="center">
 
-## ⚡ Overview
+## 🚀 Features
 
-CoinTracker helps users manage personal finances efficiently.
+JWT-based authentication  
+Income and expense tracking  
+User-specific transaction data  
+Dashboard for financial overview  
+Date-based filtering  
+Profile and preference management  
+REST API backend  
+Vercel-ready frontend  
+Docker-ready backend  
 
- Track income and expenses  
- Monitor financial history  
- Analyze spending patterns  
- Maintain financial discipline  
- 
 </div>
 
 ---
 
+<div align="center">
+
 ## 🧱 Tech Stack
 
-### Backend
-- Java 21  
-- Spring Boot  
-- Spring Security (JWT)  
-- Spring Data JPA  
-- PostgreSQL  
-- Maven  
-
 ### Frontend
-- React  
-- TypeScript  
-- Vite   
 
-### DevOps
-- Docker  
-- Render deployment ready  
+React  
+TypeScript  
+Vite  
+Ant Design  
+Tailwind CSS  
+
+### Backend
+
+Java 21  
+Spring Boot  
+Spring Security  
+Spring Data JPA  
+PostgreSQL  
+Maven  
+Docker  
+
+### Deployment
+
+Vercel  
+Render  
+PostgreSQL Cloud Database  
+
+</div>
 
 ---
 
-## 🚀 Features
-
-- 🔐 Secure authentication (JWT)
-- 💸 Income & expense tracking
-- 📊 Financial insights
-- 📅 Date-based filtering
-- 👤 User-specific data isolation
-- ⚡ Fast REST APIs
-
----
+<div align="center">
 
 ## 🏗️ Project Structure
 
+</div>
+
+```txt
 CoinTracker/
-
-- cointracker-backend/
-  - src/
-  - pom.xml
-  - Dockerfile
-
-- cointracker-frontend/
-  - src/
-  - package.json
-
-- README.md
-
-
-## ⚙️ Environment Variables (Backend)
-
-ACTIVE_PROFILE=prod
-
-DB_URL=your_database_url
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-DB_DRIVER_NAME=org.postgresql.Driver
-
-SECRET_KEY=your_jwt_secret
-
-BREVO_USERNAME=your_email_user
-BREVO_PASSWORD=your_email_pass
-BREVO_EMAIL=your_sender_email
-
-BASE_URL=your_backend_url
-FRONTEND_URL=your_frontend_url
+├── cointracker-backend/
+│   ├── src/
+│   ├── pom.xml
+│   └── Dockerfile
+│
+├── cointracker-frontend/
+│   ├── src/
+│   ├── package.json
+│   └── vercel.json
+│
+└── README.md
+```
 
 ---
 
-## 🐳 Run with Docker
+<div align="center">
 
-docker build -t cointracker-backend . <br/>
+## 🧪 Run Locally
+
+### Backend
+
+</div>
+
+```bash
+cd cointracker-backend
+mvn spring-boot:run
+```
+
+<div align="center">
+
+Backend runs on:
+
+</div>
+
+```txt
+http://localhost:8080
+```
+
+<div align="center">
+
+### Frontend
+
+</div>
+
+```bash
+cd cointracker-frontend
+npm install
+npm run dev
+```
+
+<div align="center">
+
+Frontend runs on:
+
+</div>
+
+```txt
+http://localhost:5173
+```
+
+---
+
+<div align="center">
+
+## 🐳 Docker
+
+</div>
+
+```bash
+cd cointracker-backend
+docker build -t cointracker-backend .
 docker run -p 8080:8080 cointracker-backend
-
-
----
-
-## 📦 API Endpoints
-
-- `/auth/register`
-- `/auth/login`
-- `/transactions`
-- `/transactions/{id}`
-- `/user/profile`
+```
 
 ---
 
-## 📌 Goal of This Project
+<div align="center">
 
-- Build real-world full-stack system  
-- Practice production-grade backend design  
-- Learn deployment (Render + Docker)  
-- Improve system design fundamentals  
+## 📦 API Routes
+
+</div>
+
+```txt
+POST   /auth/register
+POST   /auth/login
+
+GET    /transactions
+POST   /transactions
+PUT    /transactions/{id}
+DELETE /transactions/{id}
+
+GET    /user/profile
+```
+
+---
+
+<div align="center">
+
+## ▲ Vercel Setup
+
+For React Router refresh support, add this file:
+
+`cointracker-frontend/vercel.json`
+
+</div>
+
+```json
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+```
+
+<div align="center">
+
+Recommended Vercel settings:
+
+</div>
+
+```txt
+Framework Preset: Vite
+Root Directory: cointracker-frontend
+Build Command: npm run build
+Output Directory: dist
+```
 
 ---
 
@@ -126,11 +204,13 @@ docker run -p 8080:8080 cointracker-backend
 
 ## 🔥 Status
 
-🚧 Active Development  
-⚙️ Backend Stable  
-🎨 Frontend Evolving  
+Active Development
+
+</div>
 
 ---
+
+<div align="center">
 
 ## 👨‍💻 Author
 
