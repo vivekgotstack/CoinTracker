@@ -29,11 +29,11 @@ const Navbar = ({ user }: NavbarProps) => {
 
   return (
     <header className="sticky top-0 z-20 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_90%,transparent)] backdrop-blur-xl">
-      <div className="app-navbar min-h-24 gap-3 px-3 py-3 sm:gap-4 sm:px-6">
+      <div className="app-navbar min-h-24 gap-3 overflow-hidden px-3 py-3 sm:gap-4 sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
           <BrandMark compact className="hidden sm:flex lg:hidden" />
 
-          <div className="min-w-0 max-w-[46vw] rounded-3xl bg-[var(--hero)] px-3 py-3 shadow-sm sm:max-w-none sm:min-w-64 sm:px-5 xl:min-w-80">
+          <div className="min-w-0 max-w-[42vw] rounded-3xl bg-[var(--hero)] px-3 py-3 shadow-sm sm:max-w-none sm:min-w-64 sm:px-5 xl:min-w-80">
             <p className="text-xs font-semibold uppercase tracking-wide text-[var(--primary)]">
               {isFirstLogin || !hasCustomName ? 'Welcome to CoinTracker' : 'Welcome back'}
             </p>
@@ -51,7 +51,7 @@ const Navbar = ({ user }: NavbarProps) => {
           </span>
         </div>
 
-        <div className="app-navbar-actions flex shrink-0 items-center gap-2">
+        <div className="app-navbar-actions flex min-w-0 shrink-0 items-center justify-end gap-1.5 sm:gap-2">
           <Button
             aria-label="Toggle theme"
             icon={isDark ? <Sun size={16} /> : <Moon size={16} />}
@@ -73,7 +73,14 @@ const Navbar = ({ user }: NavbarProps) => {
 
           <Button aria-label="Open settings" icon={<Settings size={16} />} onClick={() => navigate('/settings')} />
 
-          <Button icon={<LogOut size={16} />} onClick={logout} className="hidden lg:inline-flex">
+          <Button
+            aria-label="Logout"
+            icon={<LogOut size={16} />}
+            onClick={logout}
+            className="hidden sm:inline-flex 2xl:hidden"
+          />
+
+          <Button icon={<LogOut size={16} />} onClick={logout} className="hidden 2xl:inline-flex">
             Logout
           </Button>
         </div>

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Button, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Table, message } from 'antd'
+import { Button, Form, Grid, Input, InputNumber, Modal, Popconfirm, Select, Space, Table, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { Edit3, Plus, Search, Trash2 } from 'lucide-react'
 import EmojiField from '@/components/ui/EmojiField'
@@ -52,6 +52,8 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
   const updateMutation = useUpdateTransaction()
   const deleteMutation = useDeleteTransaction()
   const { preferences } = useUserPreferences()
+  const screens = Grid.useBreakpoint()
+  const compactTable = preferences.compactTables || screens.md === false
 
   const categoryOptions = useMemo(
     () =>
@@ -119,51 +121,93 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
     }
   }
 
-  const columns: ColumnsType<Transaction> = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      render: (_, transaction) => (
-        <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-xl">
-            {renderEntityIcon(transaction.icon, fallbackIcon[type])}
-          </span>
-          <div>
-            <p className="font-medium text-[var(--foreground)]">{transaction.name}</p>
-            <p className="text-sm text-[var(--muted)]">Category #{transaction.categoryId}</p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      render: (date: string) => formatDate(date),
-    },
-    {
-      title: 'Amount',
-      dataIndex: 'amount',
-      align: 'right',
-      render: (amount: number) => (
-        <span className={type === 'INCOME' ? 'font-semibold text-emerald-700' : 'font-semibold text-rose-700'}>
-          {preferences.hideAmounts ? 'Hidden' : `${type === 'INCOME' ? '+' : '-'}${formatCurrency(amount)}`}
-        </span>
-      ),
-    },
-    {
-      title: '',
-      key: 'actions',
-      align: 'right',
-      render: (_, transaction) => (
-        <Space>
-          <Button icon={<Edit3 size={15} />} onClick={() => openEdit(transaction)} />
-          <Popconfirm title="Delete transaction?" onConfirm={() => handleDelete(transaction.id)}>
-            <Button danger icon={<Trash2 size={15} />} />
-          </Popconfirm>
-        </Space>
-      ),
-    },
-  ]
+  const amountCell = (amount: number) => (
+    <span
+      className={`whitespace-nowrap ${
+        type === 'INCOME' ? 'font-semibold text-emerald-700' : 'font-semibold text-rose-700'
+      }`}
+    >
+      {preferences.hideAmounts ? 'Hidden' : `${type === 'INCOME' ? '+' : '-'}${formatCurrency(amount)}`}
+    </span>
+  )
+
+  const actionCell = (transaction: Transaction) => (
+    <Space size={compactTable ? 4 : 8} wrap={false}>
+      <Button icon={<Edit3 size={15} />} onClick={() => openEdit(transaction)} />
+      <Popconfirm title="Delete transaction?" onConfirm={() => handleDelete(transaction.id)}>
+        <Button danger icon={<Trash2 size={15} />} />
+      </Popconfirm>
+    </Space>
+  )
+
+  const columns: ColumnsType<Transaction> = compactTable
+    ? [
+        {
+          title: 'Transaction',
+          dataIndex: 'name',
+          render: (_, transaction) => (
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-lg">
+                {renderEntityIcon(transaction.icon, fallbackIcon[type])}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate font-medium text-[var(--foreground)]">{transaction.name}</p>
+                <p className="truncate text-xs text-[var(--muted)]">
+                  {formatDate(transaction.date)} · Category #{transaction.categoryId}
+                </p>
+              </div>
+            </div>
+          ),
+        },
+        {
+          title: 'Amount',
+          dataIndex: 'amount',
+          align: 'right',
+          width: 92,
+          render: amountCell,
+        },
+        {
+          title: '',
+          key: 'actions',
+          align: 'right',
+          width: 86,
+          render: (_, transaction) => actionCell(transaction),
+        },
+      ]
+    : [
+        {
+          title: 'Name',
+          dataIndex: 'name',
+          render: (_, transaction) => (
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-xl">
+                {renderEntityIcon(transaction.icon, fallbackIcon[type])}
+              </span>
+              <div>
+                <p className="font-medium text-[var(--foreground)]">{transaction.name}</p>
+                <p className="text-sm text-[var(--muted)]">Category #{transaction.categoryId}</p>
+              </div>
+            </div>
+          ),
+        },
+        {
+          title: 'Date',
+          dataIndex: 'date',
+          render: (date: string) => formatDate(date),
+        },
+        {
+          title: 'Amount',
+          dataIndex: 'amount',
+          align: 'right',
+          render: amountCell,
+        },
+        {
+          title: '',
+          key: 'actions',
+          align: 'right',
+          render: (_, transaction) => actionCell(transaction),
+        },
+      ]
 
   return (
     <div className="space-y-12">
@@ -206,8 +250,8 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
           columns={columns}
           dataSource={transactions.data?.content ?? []}
           loading={transactions.isLoading}
-          size={preferences.compactTables ? 'small' : 'middle'}
-          scroll={{ x: 720 }}
+          size={compactTable ? 'small' : 'middle'}
+          scroll={compactTable ? undefined : { x: 720 }}
           className="overflow-hidden rounded-2xl"
           pagination={{
             current: page,

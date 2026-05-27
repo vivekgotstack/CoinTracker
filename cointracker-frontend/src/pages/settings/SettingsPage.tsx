@@ -41,7 +41,7 @@ const SettingsPage = () => {
         </p>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <div className="glass-panel rounded-3xl p-5">
           <div className="flex items-start gap-3">
             <Sun className="mt-1 text-[var(--primary)]" size={20} />
@@ -93,9 +93,7 @@ const SettingsPage = () => {
             </div>
           </div>
         </div>
-      </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <div className="glass-panel rounded-3xl p-5">
           <div className="flex items-start gap-3">
             <Table2 className="mt-1 text-[var(--primary)]" size={20} />

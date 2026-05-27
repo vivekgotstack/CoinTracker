@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Form, Input, Modal, Popconfirm, Select, Space, Table, Tag, message } from 'antd'
+import { Button, Form, Grid, Input, Modal, Popconfirm, Select, Space, Table, Tag, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { Edit3, Plus, Tags, Trash2 } from 'lucide-react'
 import EmptyState from '@/components/shared/EmptyState'
@@ -31,6 +31,8 @@ const CategoryPage = () => {
   const updateMutation = useUpdateCategory()
   const deleteMutation = useDeleteCategory()
   const { preferences } = useUserPreferences()
+  const screens = Grid.useBreakpoint()
+  const compactTable = preferences.compactTables || screens.md === false
 
   const openCreate = () => {
     setEditing(null)
@@ -85,46 +87,78 @@ const CategoryPage = () => {
     }
   }
 
-  const columns: ColumnsType<Category> = [
-    {
-      title: 'Category',
-      dataIndex: 'name',
-      render: (_, category) => (
-        <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-xl">
-            {renderEntityIcon(category.icon, category.type === 'INCOME' ? '\u{1F4B0}' : '\u{1F9FE}')}
-          </span>
-          <div>
-            <p className="font-medium text-[var(--foreground)]">{category.name}</p>
-            <p className="text-sm text-[var(--muted)]">Created {formatDate(category.createdAt)}</p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: 'Type',
-      dataIndex: 'type',
-      render: (type: Category['type']) => <Tag color={type === 'INCOME' ? 'green' : 'red'}>{type}</Tag>,
-    },
-    {
-      title: 'Updated',
-      dataIndex: 'updatedAt',
-      render: (date: string) => formatDate(date),
-    },
-    {
-      title: '',
-      key: 'actions',
-      align: 'right',
-      render: (_, category) => (
-        <Space>
-          <Button icon={<Edit3 size={15} />} onClick={() => openEdit(category)} />
-          <Popconfirm title="Delete category?" onConfirm={() => handleDelete(category.id)}>
-            <Button danger icon={<Trash2 size={15} />} />
-          </Popconfirm>
-        </Space>
-      ),
-    },
-  ]
+  const typeTag = (type: Category['type']) => <Tag color={type === 'INCOME' ? 'green' : 'red'}>{type}</Tag>
+
+  const actionCell = (category: Category) => (
+    <Space size={compactTable ? 4 : 8} wrap={false}>
+      <Button icon={<Edit3 size={15} />} onClick={() => openEdit(category)} />
+      <Popconfirm title="Delete category?" onConfirm={() => handleDelete(category.id)}>
+        <Button danger icon={<Trash2 size={15} />} />
+      </Popconfirm>
+    </Space>
+  )
+
+  const columns: ColumnsType<Category> = compactTable
+    ? [
+        {
+          title: 'Category',
+          dataIndex: 'name',
+          render: (_, category) => (
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-lg">
+                {renderEntityIcon(category.icon, category.type === 'INCOME' ? '\u{1F4B0}' : '\u{1F9FE}')}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate font-medium text-[var(--foreground)]">{category.name}</p>
+                <div className="mt-1 flex min-w-0 items-center gap-2 text-xs text-[var(--muted)]">
+                  {typeTag(category.type)}
+                  <span className="truncate">Updated {formatDate(category.updatedAt)}</span>
+                </div>
+              </div>
+            </div>
+          ),
+        },
+        {
+          title: '',
+          key: 'actions',
+          align: 'right',
+          width: 86,
+          render: (_, category) => actionCell(category),
+        },
+      ]
+    : [
+        {
+          title: 'Category',
+          dataIndex: 'name',
+          render: (_, category) => (
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-xl">
+                {renderEntityIcon(category.icon, category.type === 'INCOME' ? '\u{1F4B0}' : '\u{1F9FE}')}
+              </span>
+              <div>
+                <p className="font-medium text-[var(--foreground)]">{category.name}</p>
+                <p className="text-sm text-[var(--muted)]">Created {formatDate(category.createdAt)}</p>
+              </div>
+            </div>
+          ),
+        },
+        {
+          title: 'Type',
+          dataIndex: 'type',
+          render: typeTag,
+        },
+        {
+          title: 'Updated',
+          dataIndex: 'updatedAt',
+          render: (date: string) => formatDate(date),
+        },
+        {
+          title: '',
+          key: 'actions',
+          align: 'right',
+          render: (_, category) => actionCell(category),
+        },
+      ]
 
   return (
     <div className="space-y-12">
@@ -148,8 +182,8 @@ const CategoryPage = () => {
             columns={columns}
             dataSource={categories.data}
             loading={categories.isLoading}
-            size={preferences.compactTables ? 'small' : 'middle'}
-            scroll={{ x: 720 }}
+            size={compactTable ? 'small' : 'middle'}
+            scroll={compactTable ? undefined : { x: 720 }}
             className="overflow-hidden rounded-2xl"
             pagination={{ pageSize: 8 }}
           />

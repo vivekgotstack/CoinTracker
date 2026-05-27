@@ -28,13 +28,13 @@ const ProfilePage = () => {
   return (
     <div className="space-y-9">
       <section>
-        <h1 className="brand-font text-3xl font-bold text-[var(--foreground)]">Profile</h1>
-        <p className="mt-2 text-sm text-[var(--muted)]">
+        <h1 className="brand-font text-3xl font-bold text-(--foreground)">Profile</h1>
+        <p className="mt-2 text-sm text-(--muted)">
           Make CoinTracker feel like your own.
         </p>
       </section>
 
-      <section className="overflow-hidden rounded-3xl bg-[var(--hero)] p-6 shadow-sm sm:p-8">
+      <section className="overflow-hidden rounded-3xl bg-(--hero) p-6 shadow-sm sm:p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
           <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[2rem] bg-[var(--surface)] text-6xl shadow-xl">
             {preferences.avatarEmoji}
@@ -82,10 +82,10 @@ const ProfilePage = () => {
                   className="mb-0"
                   rules={[
                     { required: true, message: 'Display name is required' },
-                    { max: 10, message: 'Keep it under 10 characters' },
+                    { max: 15, message: 'Keep it under 10 characters' },
                   ]}
                 >
-                  <Input maxLength={10} placeholder="Your name" />
+                  <Input maxLength={15} placeholder="Your name" />
                 </Form.Item>
                 <Button type="primary" htmlType="submit">
                   Save
