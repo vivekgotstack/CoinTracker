@@ -18,7 +18,7 @@ const Navbar = ({ user }: NavbarProps) => {
   const navigate = useNavigate()
   const { isDark, toggleTheme } = useTheme()
   const { preferences } = useUserPreferences()
-  const displayName = getPreferredDisplayName(preferences.displayName, user?.email)
+  const displayName = getPreferredDisplayName(preferences.displayName, user?.email).slice(0, 10)
   const hasCustomName = preferences.displayName.trim().length > 0
   const isFirstLogin = useMemo(() => consumeFirstLogin(user?.email), [user?.email])
 
@@ -37,11 +37,11 @@ const Navbar = ({ user }: NavbarProps) => {
             <p className="text-xs font-semibold uppercase tracking-wide text-[var(--primary)]">
               {isFirstLogin || !hasCustomName ? 'Welcome to CoinTracker' : 'Welcome back'}
             </p>
-            <div className="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
+            <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
               <h2 className="brand-font truncate text-xl font-bold text-[var(--foreground)] sm:text-2xl">
                 {displayName}
               </h2>
-              <span className="hidden rounded-full bg-[color-mix(in_srgb,var(--surface)_70%,transparent)] px-3 py-1 text-xs font-semibold text-[var(--muted)] sm:inline-flex">
+              <span className="w-fit rounded-full bg-[color-mix(in_srgb,var(--surface)_70%,transparent)] px-3 py-1 text-xs font-semibold text-[var(--muted)]">
                 Today feels trackable
               </span>
             </div>

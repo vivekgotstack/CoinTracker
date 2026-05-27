@@ -16,7 +16,7 @@ const SignupPage = () => {
   const handleSignup = async (values: RegisterRequest) => {
     try {
       const response = await register.mutateAsync(values)
-      updatePreferences({ displayName: values.fullName.trim() })
+      updatePreferences({ displayName: values.fullName.trim().slice(0, 10) })
       markPendingActivation(values.email)
       message.success(response.message ?? 'Account created. Please activate your account.')
       navigate('/login')

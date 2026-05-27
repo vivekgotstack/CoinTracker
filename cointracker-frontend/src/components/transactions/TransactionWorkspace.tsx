@@ -24,7 +24,7 @@ type TransactionWorkspaceProps = {
 type TransactionFormValues = {
   name: string
   icon?: string
-  amount: number
+  amount?: number
   date: string
   categoryId: number
 }
@@ -67,7 +67,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
     form.setFieldsValue({
       name: '',
       icon: fallbackIcon[type],
-      amount: 0,
+      amount: undefined,
       date: toDateInputValue(),
       categoryId: categoryOptions[0]?.value,
     })
@@ -89,6 +89,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
   const handleSubmit = async (values: TransactionFormValues) => {
     const payload: TransactionRequest = {
       ...values,
+      amount: values.amount ?? 0,
       icon: normalizeEmojiIcon(values.icon),
       type,
     }
@@ -165,8 +166,8 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
   ]
 
   return (
-    <div className="space-y-9">
-      <section className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+    <div className="space-y-12">
+      <section className="mb-3 flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="brand-font text-3xl font-bold text-[var(--foreground)]">{pageTitle[type]}</h1>
           <p className="mt-2 text-sm text-[var(--muted)]">
@@ -185,7 +186,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
         </Button>
       </section>
 
-      <section className="glass-panel rounded-2xl p-4 sm:p-6">
+      <section className="glass-panel rounded-2xl p-4 sm:p-7">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Input
             allowClear
@@ -243,7 +244,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Form.Item label="Amount" name="amount" rules={[{ required: true, message: 'Amount is required' }]}>
-                <InputNumber min={0.01} precision={2} className="w-full" />
+                <InputNumber min={0.01} precision={2} className="w-full" placeholder="0.00" />
               </Form.Item>
 
               <Form.Item label="Date" name="date" rules={[{ required: true, message: 'Date is required' }]}>
@@ -259,6 +260,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
               type="primary"
               htmlType="submit"
               block
+              className="mt-2"
               loading={createMutation.isPending || updateMutation.isPending}
             >
               Save transaction

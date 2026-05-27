@@ -125,8 +125,8 @@ const CategoryPage = () => {
   ]
 
   return (
-    <div className="space-y-9">
-      <section className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+    <div className="space-y-12">
+      <section className="mb-3 flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="brand-font text-3xl font-bold text-[var(--foreground)]">Categories</h1>
           <p className="mt-2 text-sm text-[var(--muted)]">
@@ -139,7 +139,7 @@ const CategoryPage = () => {
         </Button>
       </section>
 
-      <section className="glass-panel rounded-2xl p-4 sm:p-6">
+      <section className="glass-panel rounded-2xl p-4 sm:p-7">
         {(categories.data?.length ?? 0) > 0 ? (
           <Table<Category>
             rowKey="id"
@@ -185,6 +185,7 @@ const CategoryPage = () => {
             type="primary"
             htmlType="submit"
             block
+            className="mt-2"
             loading={createMutation.isPending || updateMutation.isPending}
           >
             Save category

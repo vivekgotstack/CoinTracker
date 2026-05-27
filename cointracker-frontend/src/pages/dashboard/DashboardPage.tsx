@@ -41,8 +41,8 @@ const DashboardPage = () => {
   const money = (value: number) => (preferences.hideAmounts ? 'Hidden' : formatCurrency(value))
 
   return (
-    <div className="space-y-10">
-      <section>
+    <div className="space-y-14">
+      <section className="mb-2">
         <div className="rounded-3xl bg-[var(--hero)] p-6 shadow-sm sm:p-8">
           <h1 className="brand-font text-4xl font-bold text-[var(--foreground)]">Financial Overview</h1>
           <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">
@@ -51,7 +51,7 @@ const DashboardPage = () => {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <section className="grid grid-cols-1 gap-8 md:grid-cols-3">
         <StatCard
           title="Total Balance"
           amount={money(data.totalBalance)}
@@ -77,7 +77,7 @@ const DashboardPage = () => {
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-8 xl:grid-cols-[1.35fr_1fr]">
+      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[1.35fr_1fr]">
         <ExpenseChart data={chartData} />
         <RecentTransactions data={data.recentTransactions} />
       </section>

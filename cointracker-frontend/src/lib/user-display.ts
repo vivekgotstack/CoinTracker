@@ -16,5 +16,5 @@ export const nameFromEmail = (email?: string | null) => {
 
 export const getPreferredDisplayName = (savedName: string, email?: string | null) => {
   const trimmed = savedName.trim()
-  return trimmed || nameFromEmail(email)
+  return (trimmed || nameFromEmail(email)).slice(0, 10)
 }

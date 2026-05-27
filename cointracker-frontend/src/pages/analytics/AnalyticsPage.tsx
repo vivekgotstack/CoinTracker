@@ -39,15 +39,15 @@ const AnalyticsPage = () => {
   ]
 
   return (
-    <div className="space-y-9">
-      <section>
+    <div className="space-y-12">
+      <section className="mb-2">
         <h1 className="brand-font text-3xl font-bold text-[var(--foreground)]">Analytics</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">
           A compact breakdown using dashboard totals and transaction history.
         </p>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <section className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <StatCard
           title="Income"
           amount={money(dashboard.data.totalIncome)}
@@ -64,7 +64,7 @@ const AnalyticsPage = () => {
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-8 xl:grid-cols-[1.35fr_1fr]">
+      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[1.35fr_1fr]">
         <ExpenseChart data={expenseTrend} title="Expense Timeline" subtitle="Latest expense records by date" />
 
         <div className="glass-panel rounded-2xl p-5">

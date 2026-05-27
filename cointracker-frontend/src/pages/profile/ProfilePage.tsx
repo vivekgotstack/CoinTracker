@@ -1,5 +1,6 @@
 import { Button, Descriptions, Form, Input, Tag, message } from 'antd'
 import { Bell, Edit3, EyeOff, Mail, Palette, ShieldCheck } from 'lucide-react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import EmojiField from '@/components/ui/EmojiField'
 import { useAuth } from '@/hooks/UseAuth'
@@ -15,10 +16,12 @@ const ProfilePage = () => {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { preferences, updatePreferences } = useUserPreferences()
-  const displayName = getPreferredDisplayName(preferences.displayName, user?.email)
+  const displayName = getPreferredDisplayName(preferences.displayName, user?.email).slice(0, 10)
+  const [isEditingName, setIsEditingName] = useState(false)
 
   const handleSaveName = (values: ProfileForm) => {
-    updatePreferences({ displayName: values.displayName.trim() })
+    updatePreferences({ displayName: values.displayName.trim().slice(0, 10) })
+    setIsEditingName(false)
     message.success('Display name updated')
   }
 
@@ -65,29 +68,48 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <Form<ProfileForm>
-            form={form}
-            layout="vertical"
-            initialValues={{ displayName }}
-            onFinish={handleSaveName}
-            requiredMark={false}
-          >
-            <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-              <Form.Item
-                name="displayName"
-                className="mb-0"
-                rules={[
-                  { required: true, message: 'Display name is required' },
-                  { max: 32, message: 'Keep it under 32 characters' },
-                ]}
+          {isEditingName ? (
+            <Form<ProfileForm>
+              form={form}
+              layout="vertical"
+              initialValues={{ displayName }}
+              onFinish={handleSaveName}
+              requiredMark={false}
+            >
+              <div className="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
+                <Form.Item
+                  name="displayName"
+                  className="mb-0"
+                  rules={[
+                    { required: true, message: 'Display name is required' },
+                    { max: 10, message: 'Keep it under 10 characters' },
+                  ]}
+                >
+                  <Input maxLength={10} placeholder="Your name" />
+                </Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Save
+                </Button>
+                <Button onClick={() => setIsEditingName(false)}>Cancel</Button>
+              </div>
+            </Form>
+          ) : (
+            <div className="flex flex-col gap-3 rounded-2xl bg-[var(--surface-muted)] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Current name</p>
+                <p className="brand-font text-2xl font-bold text-[var(--foreground)]">{displayName}</p>
+              </div>
+              <Button
+                icon={<Edit3 size={15} />}
+                onClick={() => {
+                  form.setFieldsValue({ displayName })
+                  setIsEditingName(true)
+                }}
               >
-                <Input placeholder="Your display name" />
-              </Form.Item>
-              <Button type="primary" htmlType="submit">
-                Save name
+                Edit
               </Button>
             </div>
-          </Form>
+          )}
 
           <div className="mt-6">
             <Descriptions bordered column={1}>
