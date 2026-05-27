@@ -36,16 +36,16 @@ const ProfilePage = () => {
 
       <section className="overflow-hidden rounded-3xl bg-(--hero) p-6 shadow-sm sm:p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-          <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[2rem] bg-[var(--surface)] text-6xl shadow-xl">
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-4xl bg-(--surface) text-6xl shadow-xl">
             {preferences.avatarEmoji}
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-[var(--primary)]">Personal profile</p>
-            <h2 className="brand-font mt-1 truncate text-4xl font-extrabold text-[var(--foreground)]">
+            <p className="text-sm font-semibold text-(--primary)">Personal profile</p>
+            <h2 className="brand-font mt-1 truncate text-4xl font-extrabold text-(--foreground)">
               {displayName}
             </h2>
-            <p className="mt-2 truncate text-sm text-[var(--muted)]">{user?.email}</p>
+            <p className="mt-2 truncate text-sm text-(--muted)">{user?.email}</p>
           </div>
 
           <div className="w-full sm:w-56">
@@ -61,10 +61,10 @@ const ProfilePage = () => {
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <div className="glass-panel rounded-3xl p-5 sm:p-6">
           <div className="mb-5 flex items-center gap-3">
-            <Edit3 className="text-[var(--primary)]" size={20} />
+            <Edit3 className="text-(--primary)" size={20} />
             <div>
-              <h3 className="text-lg font-semibold text-[var(--foreground)]">Display Name</h3>
-              <p className="text-sm text-[var(--muted)]">Choose the name shown in your header and profile.</p>
+              <h3 className="text-lg font-semibold text-(--foreground)">Display Name</h3>
+              <p className="text-sm text-(--muted)">Choose the name shown in your header and profile.</p>
             </div>
           </div>
 
@@ -94,10 +94,10 @@ const ProfilePage = () => {
               </div>
             </Form>
           ) : (
-            <div className="flex flex-col gap-3 rounded-2xl bg-[var(--surface-muted)] p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 rounded-2xl bg-(--surface-muted) p-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Current name</p>
-                <p className="brand-font text-lg font-bold text-[var(--foreground)]">{displayName}</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-(--muted)">Current name</p>
+                <p className="brand-font text-lg font-bold text-(--foreground)">{displayName}</p>
               </div>
               <Button
                 icon={<Edit3 size={15} />}
@@ -129,10 +129,10 @@ const ProfilePage = () => {
         <div className="space-y-5">
           <div className="glass-panel rounded-3xl p-5">
             <div className="flex items-start gap-3">
-              <EyeOff className="mt-1 text-[var(--primary)]" size={20} />
+              <EyeOff className="mt-1 text-(--primary)" size={20} />
               <div>
-                <h3 className="font-semibold text-[var(--foreground)]">Privacy Mode</h3>
-                <p className="text-sm text-[var(--muted)]">
+                <h3 className="font-semibold text-(--foreground)">Privacy Mode</h3>
+                <p className="text-sm text-(--muted)">
                   {preferences.hideAmounts ? 'Amounts are hidden across your money views.' : 'Amounts are visible across your money views.'}
                 </p>
               </div>
@@ -141,10 +141,10 @@ const ProfilePage = () => {
 
           <div className="glass-panel rounded-3xl p-5">
             <div className="flex items-start gap-3">
-              <Mail className="mt-1 text-[var(--primary)]" size={20} />
+              <Mail className="mt-1 text-(--primary)" size={20} />
               <div>
-                <h3 className="font-semibold text-[var(--foreground)]">Newsletter</h3>
-                <p className="text-sm text-[var(--muted)]">
+                <h3 className="font-semibold text-(--foreground)">Newsletter</h3>
+                <p className="text-sm text-(--muted)">
                   {preferences.newsletterSubscribed ? 'Subscribed to money notes.' : 'Newsletter is paused.'}
                 </p>
               </div>
@@ -153,10 +153,10 @@ const ProfilePage = () => {
 
           <div className="glass-panel rounded-3xl p-5">
             <div className="flex items-start gap-3">
-              <Bell className="mt-1 text-[var(--primary)]" size={20} />
+              <Bell className="mt-1 text-(--primary)" size={20} />
               <div>
-                <h3 className="font-semibold text-[var(--foreground)]">Digest</h3>
-                <p className="text-sm text-[var(--muted)]">
+                <h3 className="font-semibold text-(--foreground)">Digest</h3>
+                <p className="text-sm text-(--muted)">
                   {preferences.digestEnabled
                     ? `${preferences.digestFrequency.charAt(0).toUpperCase() + preferences.digestFrequency.slice(1)} reminders are on.`
                     : 'Digest reminders are off.'}
@@ -167,10 +167,10 @@ const ProfilePage = () => {
 
           <div className="glass-panel rounded-3xl p-5">
             <div className="flex items-start gap-3">
-              <Palette className="mt-1 text-[var(--primary)]" size={20} />
+              <Palette className="mt-1 text-(--primary)" size={20} />
               <div className="flex-1">
-                <h3 className="font-semibold text-[var(--foreground)]">Personalize</h3>
-                <p className="text-sm text-[var(--muted)]">Tune the app mood, privacy, and updates.</p>
+                <h3 className="font-semibold text-(--foreground)">Personalize</h3>
+                <p className="text-sm text-(--muted)">Tune the app mood, privacy, and updates.</p>
                 <Button className="mt-4" onClick={() => navigate('/settings')}>
                   Open settings
                 </Button>
