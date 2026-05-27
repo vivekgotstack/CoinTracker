@@ -77,7 +77,7 @@ const DashboardPage = () => {
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[1.35fr_1fr]">
+      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[1.35fr_1fr] py-10">
         <ExpenseChart data={chartData} />
         <RecentTransactions data={data.recentTransactions} />
       </section>
