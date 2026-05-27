@@ -35,19 +35,19 @@ const SettingsPage = () => {
   return (
     <div className="space-y-6">
       <section>
-        <h1 className="brand-font text-3xl font-bold text-[var(--foreground)]">Settings</h1>
-        <p className="mt-2 text-sm text-[var(--muted)]">
+        <h1 className="brand-font text-3xl font-bold text-(--foreground) py-2">Settings</h1>
+        <p className="mt-2 text-sm text-(--muted)">
           Shape CoinTracker around the way you like to review money.
         </p>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-3 py-10">
         <div className="glass-panel rounded-3xl p-5">
           <div className="flex items-start gap-3">
-            <Sun className="mt-1 text-[var(--primary)]" size={20} />
+            <Sun className="mt-1 text-(--primary)" size={20} />
             <div className="flex-1">
-              <h2 className="text-lg font-semibold text-[var(--foreground)]">Theme Mood</h2>
-              <p className="text-sm text-[var(--muted)]">Switch the entire app palette, surfaces, and charts.</p>
+              <h2 className="text-lg font-semibold text-(--foreground)">Theme Mood</h2>
+              <p className="text-sm text-(--muted)">Switch the entire app palette, surfaces, and charts.</p>
               <Segmented
                 className="mt-5"
                 value={theme}
@@ -79,12 +79,12 @@ const SettingsPage = () => {
 
         <div className="glass-panel rounded-3xl p-5">
           <div className="flex items-start gap-3">
-            <EyeOff className="mt-1 text-[var(--primary)]" size={20} />
+            <EyeOff className="mt-1 text-(--primary)" size={20} />
             <div className="flex-1">
-              <h2 className="text-lg font-semibold text-[var(--foreground)]">Privacy Mode</h2>
-              <p className="text-sm text-[var(--muted)]">Hide balances and transaction amounts when you are in public.</p>
-              <div className="mt-5 flex items-center justify-between rounded-2xl bg-[var(--surface-muted)] p-4">
-                <span className="text-sm font-medium text-[var(--foreground)]">Hide amounts</span>
+              <h2 className="text-lg font-semibold text-(--foreground)">Privacy Mode</h2>
+              <p className="text-sm text-(--muted)">Hide balances and transaction amounts when you are in public.</p>
+              <div className="mt-5 flex items-center justify-between rounded-2xl bg-(--surface-muted) p-4">
+                <span className="text-sm font-medium text-(--foreground)">Hide amounts</span>
                 <Switch
                   checked={preferences.hideAmounts}
                   onChange={(hideAmounts) => updatePreferences({ hideAmounts })}
@@ -96,14 +96,14 @@ const SettingsPage = () => {
 
         <div className="glass-panel rounded-3xl p-5">
           <div className="flex items-start gap-3">
-            <Table2 className="mt-1 text-[var(--primary)]" size={20} />
+            <Table2 className="mt-1 text-(--primary)" size={20} />
             <div className="flex-1">
-              <h2 className="text-lg font-semibold text-[var(--foreground)]">Compact Tables</h2>
-              <p className="text-sm text-[var(--muted)]">
+              <h2 className="text-lg font-semibold text-(--foreground)">Compact Tables</h2>
+              <p className="text-sm text-(--muted)">
                 Tighten transaction and category rows so mobile screens feel cleaner.
               </p>
-              <div className="mt-5 flex items-center justify-between rounded-2xl bg-[var(--surface-muted)] p-4">
-                <span className="text-sm font-medium text-[var(--foreground)]">Use compact rows</span>
+              <div className="mt-5 flex items-center justify-between rounded-2xl bg-(--surface-muted) p-4">
+                <span className="text-sm font-medium text-(--foreground)">Use compact rows</span>
                 <Switch
                   checked={preferences.compactTables}
                   onChange={(compactTables) => updatePreferences({ compactTables })}
@@ -117,15 +117,15 @@ const SettingsPage = () => {
       <section className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <div className="glass-panel rounded-3xl p-5">
           <div className="flex items-start gap-3">
-            <Mail className="mt-1 text-[var(--primary)]" size={20} />
+            <Mail className="mt-1 text-(--primary)" size={20} />
             <div className="flex-1">
-              <h2 className="text-lg font-semibold text-[var(--foreground)]">Newsletter</h2>
-              <p className="text-sm text-[var(--muted)]">
+              <h2 className="text-lg font-semibold text-(--foreground)">Newsletter</h2>
+              <p className="text-sm text-(--muted)">
                 Receive helpful money tips, product updates, and calm finance summaries.
               </p>
               <div className="mt-5 space-y-3">
-                <div className="flex items-center justify-between rounded-2xl bg-[var(--surface-muted)] p-4">
-                  <span className="text-sm font-medium text-[var(--foreground)]">Subscribe to newsletter</span>
+                <div className="flex items-center justify-between rounded-2xl bg-(--surface-muted) p-4">
+                  <span className="text-sm font-medium text-(--foreground)">Subscribe to newsletter</span>
                   <Switch
                     checked={preferences.newsletterSubscribed}
                     onChange={(newsletterSubscribed) => updatePreferences({ newsletterSubscribed })}
@@ -148,14 +148,14 @@ const SettingsPage = () => {
 
         <div className="glass-panel rounded-3xl p-5">
           <div className="flex items-start gap-3">
-            <Bell className="mt-1 text-[var(--primary)]" size={20} />
+            <Bell className="mt-1 text-(--primary)" size={20} />
             <div className="flex-1">
-              <h2 className="text-lg font-semibold text-[var(--foreground)]">Digest Reminders</h2>
-              <p className="text-sm text-[var(--muted)]">
+              <h2 className="text-lg font-semibold text-(--foreground)">Digest Reminders</h2>
+              <p className="text-sm text-(--muted)">
                 Choose whether CoinTracker should remind you to review your spending rhythm.
               </p>
-              <div className="mt-5 flex items-center justify-between rounded-2xl bg-[var(--surface-muted)] p-4">
-                <span className="text-sm font-medium text-[var(--foreground)]">Enable finance digest</span>
+              <div className="mt-5 flex items-center justify-between rounded-2xl bg-(--surface-muted) p-4">
+                <span className="text-sm font-medium text-(--foreground)">Enable finance digest</span>
                 <Switch
                   checked={preferences.digestEnabled}
                   onChange={(digestEnabled) => updatePreferences({ digestEnabled })}
@@ -166,37 +166,39 @@ const SettingsPage = () => {
         </div>
       </section>
 
-      <section className="glass-panel rounded-3xl p-5">
-        <div className="flex items-start gap-3">
-          <ShieldCheck className="mt-1 text-[var(--primary)]" size={20} />
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold text-[var(--foreground)]">Security</h2>
-            <p className="text-sm text-[var(--muted)]">
-              Send yourself a password reset email whenever you need a fresh start.
-            </p>
+      <div className='py-10'>
+        <section className="glass-panel rounded-3xl p-5">
+          <div className="flex items-start gap-3 py-5">
+            <ShieldCheck className="mt-1 text-(--primary)" size={20} />
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold text-(--foreground)">Security</h2>
+              <p className="text-sm text-(--muted)">
+                Send yourself a password reset email whenever you need a fresh start.
+              </p>
 
-            <Form<SecurityForm>
-              className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto]"
-              initialValues={{ email: user?.email ?? '' }}
-              onFinish={handlePasswordReset}
-            >
-              <Form.Item
-                name="email"
-                className="mb-0"
-                rules={[
-                  { required: true, message: 'Email is required' },
-                  { type: 'email', message: 'Enter a valid email' },
-                ]}
+              <Form<SecurityForm>
+                className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto]"
+                initialValues={{ email: user?.email ?? '' }}
+                onFinish={handlePasswordReset}
               >
-                <Input placeholder="Email address" />
-              </Form.Item>
-              <Button type="primary" htmlType="submit" disabled={resetCooldown.disabled}>
-                {resetCooldown.label}
-              </Button>
-            </Form>
+                <Form.Item
+                  name="email"
+                  className="mb-0"
+                  rules={[
+                    { required: true, message: 'Email is required' },
+                    { type: 'email', message: 'Enter a valid email' },
+                  ]}
+                >
+                  <Input placeholder="Email address" />
+                </Form.Item>
+                <Button type="primary" htmlType="submit" disabled={resetCooldown.disabled}>
+                  {resetCooldown.label}
+                </Button>
+              </Form>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }

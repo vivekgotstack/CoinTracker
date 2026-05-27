@@ -39,15 +39,15 @@ const RecentTransactions = ({
             return (
               <div
                 key={transaction.id}
-                className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-3 sm:gap-4 sm:px-4"
+                className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-(--border) bg-(--surface-muted) px-3 py-3 sm:gap-4 sm:px-4"
               >
                 <div className="flex min-w-0 items-center gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface)] text-xl shadow-sm">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-(--surface) text-xl shadow-sm">
                     {renderEntityIcon(transaction.icon, isIncome ? '💸' : '🧾')}
                   </span>
                   <div className="min-w-0">
-                    <p className="truncate font-medium text-[var(--foreground)]">{transaction.name}</p>
-                    <p className="text-sm text-[var(--muted)]">{formatDate(transaction.date)}</p>
+                    <p className="truncate font-medium text-(--foreground)">{transaction.name}</p>
+                    <p className="text-sm text-(--muted)">{formatDate(transaction.date)}</p>
                   </div>
                 </div>
 
@@ -58,7 +58,7 @@ const RecentTransactions = ({
             )
           })
         ) : (
-          <p className="rounded-lg border border-dashed border-[var(--border)] p-4 text-sm text-[var(--muted)]">
+          <p className="rounded-lg border border-dashed border-(--border) p-4 text-sm text-(--muted)">
             No transactions yet
           </p>
         )}

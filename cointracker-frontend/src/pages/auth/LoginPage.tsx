@@ -39,8 +39,8 @@ const LoginPage = () => {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[var(--app-bg)] px-4">
-      <section className="glass-panel w-full max-w-md rounded-3xl p-8">
+    <main className="flex min-h-screen items-center justify-center bg-(--app-bg) px-4 py-8">
+      <section className="glass-panel rounded-3xl p-8" style={{ width: 'min(calc(100vw - 32px), 600px)' }}>
         <div>
           <BrandMark />
           <h1 className="mt-2 text-3xl font-semibold text-neutral-950 dark:text-white">Sign in</h1>
@@ -74,11 +74,17 @@ const LoginPage = () => {
           </Button>
         </Form>
 
-        <div className="mt-5 flex items-center justify-between text-sm">
-          <Link to="/forgot-password" className="font-medium text-teal-700 dark:text-teal-300">
+        <div className="mt-5 grid gap-2 sm:grid-cols-2">
+          <Link
+            to="/forgot-password"
+            className="rounded-2xl bg-[var(--surface-muted)] px-4 py-3 text-center text-sm font-medium text-teal-700 transition hover:-translate-y-0.5 hover:shadow-md dark:text-teal-300"
+          >
             Forgot password?
           </Link>
-          <Link to="/signup" className="font-medium text-neutral-700 dark:text-neutral-200">
+          <Link
+            to="/signup"
+            className="rounded-2xl bg-[var(--surface-muted)] px-4 py-3 text-center text-sm font-medium text-[var(--foreground)] transition hover:-translate-y-0.5 hover:shadow-md"
+          >
             Create account
           </Link>
         </div>

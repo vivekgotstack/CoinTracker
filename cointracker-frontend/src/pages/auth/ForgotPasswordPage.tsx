@@ -4,6 +4,7 @@ import { Mail } from 'lucide-react'
 import { forgotPassword } from '@/lib/auth-api'
 import { getApiErrorMessage } from '@/lib/errors'
 import { useResetCooldown } from '@/hooks/UseResetCooldown'
+import BrandMark from '@/components/shared/BrandMark'
 
 type ForgotPasswordForm = {
   email: string
@@ -28,9 +29,10 @@ const ForgotPasswordPage = () => {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-transparent px-4">
-      <section className="glass-panel w-full max-w-md rounded-3xl p-8">
-        <h1 className="text-3xl font-semibold text-neutral-950 dark:text-white">Reset access</h1>
+    <main className="flex min-h-screen items-center justify-center bg-transparent px-4 py-8">
+      <section className="glass-panel rounded-3xl p-8" style={{ width: 'min(calc(100vw - 32px), 600px)' }}>
+        <BrandMark />
+        <h1 className="mt-2 text-3xl font-semibold text-neutral-950 dark:text-white">Reset access</h1>
         <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
           Enter your email and we will send a reset link.
         </p>
@@ -52,8 +54,11 @@ const ForgotPasswordPage = () => {
           </Button>
         </Form>
 
-        <Link to="/login" className="mt-5 block text-sm font-medium text-teal-700 dark:text-teal-300">
-          Back to login
+        <Link
+          to="/login"
+          className="mt-5 block rounded-2xl bg-(--surface-muted) px-4 py-3 text-center text-sm font-medium text-teal-700 transition hover:-translate-y-0.5 hover:shadow-md dark:text-teal-300"
+        >
+          Back to sign in
         </Link>
       </section>
     </main>

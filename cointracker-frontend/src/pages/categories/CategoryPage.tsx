@@ -105,12 +105,12 @@ const CategoryPage = () => {
           dataIndex: 'name',
           render: (_, category) => (
             <div className="flex min-w-0 items-center gap-2">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-lg">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-(--surface-muted) text-lg">
                 {renderEntityIcon(category.icon, category.type === 'INCOME' ? '\u{1F4B0}' : '\u{1F9FE}')}
               </span>
               <div className="min-w-0">
-                <p className="truncate font-medium text-[var(--foreground)]">{category.name}</p>
-                <div className="mt-1 flex min-w-0 items-center gap-2 text-xs text-[var(--muted)]">
+                <p className="truncate font-medium text-(--foreground)">{category.name}</p>
+                <div className="mt-1 flex min-w-0 items-center gap-2 text-xs text-(--muted)">
                   {typeTag(category.type)}
                   <span className="truncate">Updated {formatDate(category.updatedAt)}</span>
                 </div>
@@ -132,12 +132,12 @@ const CategoryPage = () => {
           dataIndex: 'name',
           render: (_, category) => (
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-xl">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-(--surface-muted) text-xl">
                 {renderEntityIcon(category.icon, category.type === 'INCOME' ? '\u{1F4B0}' : '\u{1F9FE}')}
               </span>
               <div>
-                <p className="font-medium text-[var(--foreground)]">{category.name}</p>
-                <p className="text-sm text-[var(--muted)]">Created {formatDate(category.createdAt)}</p>
+                <p className="font-medium text-(--foreground)">{category.name}</p>
+                <p className="text-sm text-(--muted)">Created {formatDate(category.createdAt)}</p>
               </div>
             </div>
           ),
@@ -164,8 +164,8 @@ const CategoryPage = () => {
     <div className="space-y-12">
       <section className="mb-3 flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="brand-font text-3xl font-bold text-[var(--foreground)]">Categories</h1>
-          <p className="mt-2 text-sm text-[var(--muted)]">
+          <h1 className="brand-font text-3xl font-bold text-(--foreground)">Categories</h1>
+          <p className="mt-2 text-sm text-(--muted)">
             Build a clean money language for income, bills, shopping, savings, and everything between.
           </p>
         </div>

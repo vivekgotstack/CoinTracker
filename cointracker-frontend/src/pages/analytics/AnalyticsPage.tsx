@@ -40,9 +40,9 @@ const AnalyticsPage = () => {
 
   return (
     <div className="space-y-12">
-      <section className="mb-2">
-        <h1 className="brand-font text-3xl font-bold text-[var(--foreground)]">Analytics</h1>
-        <p className="mt-2 text-sm text-[var(--muted)]">
+      <section className="mb-2 py-10">
+        <h1 className="brand-font text-3xl font-bold text-(--foreground)">Analytics</h1>
+        <p className="mt-2 text-sm text-(--muted)">
           A compact breakdown using dashboard totals and transaction history.
         </p>
       </section>
@@ -64,12 +64,12 @@ const AnalyticsPage = () => {
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[1.35fr_1fr]">
+      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[1.35fr_1fr] py-10">
         <ExpenseChart data={expenseTrend} title="Expense Timeline" subtitle="Latest expense records by date" />
 
         <div className="glass-panel rounded-2xl p-5">
-          <h2 className="text-lg font-semibold text-[var(--foreground)]">Income vs Expense</h2>
-          <p className="text-sm text-[var(--muted)]">A clean split of what came in and what went out</p>
+          <h2 className="text-lg font-semibold text-(--foreground)">Income vs Expense</h2>
+          <p className="text-sm text-(--muted)">A clean split of what came in and what went out</p>
           <div className="mt-4 h-80">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>

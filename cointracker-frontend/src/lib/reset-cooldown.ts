@@ -1,5 +1,5 @@
 const RESET_COOLDOWN_KEY = 'cointracker_reset_link_sent_at'
-const RESET_COOLDOWN_MS = 60 * 60 * 1000
+const RESET_COOLDOWN_MS = 10 * 60 * 1000
 
 export const startResetCooldown = () => {
   localStorage.setItem(RESET_COOLDOWN_KEY, String(Date.now()))

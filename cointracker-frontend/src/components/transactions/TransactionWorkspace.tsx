@@ -147,12 +147,12 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
           dataIndex: 'name',
           render: (_, transaction) => (
             <div className="flex min-w-0 items-center gap-2">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-lg">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-(--surface-muted) text-lg">
                 {renderEntityIcon(transaction.icon, fallbackIcon[type])}
               </span>
               <div className="min-w-0">
-                <p className="truncate font-medium text-[var(--foreground)]">{transaction.name}</p>
-                <p className="truncate text-xs text-[var(--muted)]">
+                <p className="truncate font-medium text-(--foreground)">{transaction.name}</p>
+                <p className="truncate text-xs text-(--muted)">
                   {formatDate(transaction.date)} - Category #{transaction.categoryId}
                 </p>
               </div>
@@ -180,12 +180,12 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
           dataIndex: 'name',
           render: (_, transaction) => (
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-muted)] text-xl">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-(--surface-muted) text-xl">
                 {renderEntityIcon(transaction.icon, fallbackIcon[type])}
               </span>
               <div>
-                <p className="font-medium text-[var(--foreground)]">{transaction.name}</p>
-                <p className="text-sm text-[var(--muted)]">Category #{transaction.categoryId}</p>
+                <p className="font-medium text-(--foreground)">{transaction.name}</p>
+                <p className="text-sm text-(--muted)">Category #{transaction.categoryId}</p>
               </div>
             </div>
           ),
@@ -213,8 +213,8 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
     <div className="space-y-12">
       <section className="mb-3 flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="brand-font text-3xl font-bold text-[var(--foreground)]">{pageTitle[type]}</h1>
-          <p className="mt-2 text-sm text-[var(--muted)]">
+          <h1 className="brand-font text-3xl font-bold text-(--foreground)">{pageTitle[type]}</h1>
+          <p className="mt-2 text-sm text-(--muted)">
             Add, refine, and review your {pageTitle[type].toLowerCase()} records with less noise.
           </p>
         </div>

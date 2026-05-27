@@ -32,8 +32,8 @@ const SignupPage = () => {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[var(--app-bg)] px-4">
-      <section className="glass-panel w-full max-w-md rounded-3xl p-8">
+    <main className="flex min-h-screen items-center justify-center bg-(--app-bg) px-4 py-8">
+      <section className="glass-panel rounded-3xl p-8" style={{ width: 'min(calc(100vw - 32px), 600px)' }}>
         <div>
           <BrandMark />
           <h1 className="mt-2 text-3xl font-semibold text-neutral-950 dark:text-white">Create account</h1>
@@ -79,12 +79,12 @@ const SignupPage = () => {
           </Button>
         </Form>
 
-        <p className="mt-5 text-center text-sm text-neutral-500 dark:text-neutral-400">
-          Already activated?{' '}
-          <Link to="/login" className="font-medium text-teal-700 dark:text-teal-300">
-            Sign in
-          </Link>
-        </p>
+        <Link
+          to="/login"
+          className="mt-5 block rounded-2xl bg-(--surface-muted) px-4 py-3 text-center text-sm font-medium text-(--foreground) transition hover:-translate-y-0.5 hover:shadow-md"
+        >
+          Already have an account? <span className="text-teal-700 dark:text-teal-300">Sign in</span>
+        </Link>
       </section>
     </main>
   )

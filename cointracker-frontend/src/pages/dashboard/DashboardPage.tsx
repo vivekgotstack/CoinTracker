@@ -43,9 +43,9 @@ const DashboardPage = () => {
   return (
     <div className="space-y-14">
       <section className="mb-2">
-        <div className="rounded-3xl bg-[var(--hero)] p-6 shadow-sm sm:p-8">
-          <h1 className="brand-font text-4xl font-bold text-[var(--foreground)]">Financial Overview</h1>
-          <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">
+        <div className="rounded-3xl bg-(--hero) p-6 shadow-sm sm:p-8">
+          <h1 className="brand-font text-4xl font-bold text-(--foreground)">Financial Overview</h1>
+          <p className="mt-2 max-w-2xl text-sm text-(--muted)">
             A calm snapshot of your balance, income, expenses, and latest money movement.
           </p>
         </div>

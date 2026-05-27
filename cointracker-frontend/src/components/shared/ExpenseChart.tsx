@@ -29,8 +29,8 @@ const ExpenseChart = ({
   return (
     <section className="glass-panel rounded-2xl p-5">
       <div className="mb-5">
-        <h2 className="text-lg font-semibold text-[var(--foreground)]">{title}</h2>
-        <p className="text-sm text-[var(--muted)]">{subtitle}</p>
+        <h2 className="text-lg font-semibold text-(--foreground)">{title}</h2>
+        <p className="text-sm text-(--muted)">{subtitle}</p>
       </div>
 
       <div className="h-80">
