@@ -19,7 +19,7 @@ const Navbar = ({ user }: NavbarProps) => {
   const { isDark, toggleTheme } = useTheme()
   const { preferences } = useUserPreferences()
   const screens = Grid.useBreakpoint()
-  const displayName = getPreferredDisplayName(preferences.displayName, user?.email).slice(0, 10)
+  const displayName = getPreferredDisplayName(preferences.displayName, user?.email)
   const hasCustomName = preferences.displayName.trim().length > 0
   const isFirstLogin = useMemo(() => consumeFirstLogin(user?.email), [user?.email])
   const showFullLogout = screens.xxl === true

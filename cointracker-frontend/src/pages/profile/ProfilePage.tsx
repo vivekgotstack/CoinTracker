@@ -5,13 +5,11 @@ import { useNavigate } from 'react-router'
 import EmojiField from '@/components/ui/EmojiField'
 import { useAuth } from '@/hooks/UseAuth'
 import { useUserPreferences } from '@/contexts/UserPreferencesContext'
-import { getPreferredDisplayName } from '@/lib/user-display'
+import { DISPLAY_NAME_MAX_LENGTH, getPreferredDisplayName } from '@/lib/user-display'
 
 type ProfileForm = {
   displayName: string
 }
-
-const DISPLAY_NAME_MAX_LENGTH = 15
 
 const ProfilePage = () => {
   const [form] = Form.useForm<ProfileForm>()

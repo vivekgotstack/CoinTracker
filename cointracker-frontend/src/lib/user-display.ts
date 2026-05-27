@@ -1,3 +1,5 @@
+export const DISPLAY_NAME_MAX_LENGTH = 15
+
 export const nameFromEmail = (email?: string | null) => {
   const raw = email?.split('@')[0] ?? ''
   const cleaned = raw
@@ -16,5 +18,5 @@ export const nameFromEmail = (email?: string | null) => {
 
 export const getPreferredDisplayName = (savedName: string, email?: string | null) => {
   const trimmed = savedName.trim()
-  return (trimmed || nameFromEmail(email)).slice(0, 10)
+  return (trimmed || nameFromEmail(email)).slice(0, DISPLAY_NAME_MAX_LENGTH)
 }
