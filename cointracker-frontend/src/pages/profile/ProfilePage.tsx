@@ -16,11 +16,11 @@ const ProfilePage = () => {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { preferences, updatePreferences } = useUserPreferences()
-  const displayName = getPreferredDisplayName(preferences.displayName, user?.email).slice(0, 10)
+  const displayName = getPreferredDisplayName(preferences.displayName, user?.email).slice(0, 15)
   const [isEditingName, setIsEditingName] = useState(false)
 
   const handleSaveName = (values: ProfileForm) => {
-    updatePreferences({ displayName: values.displayName.trim().slice(0, 10) })
+    updatePreferences({ displayName: values.displayName.trim().slice(0, 15) })
     setIsEditingName(false)
     message.success('Display name updated')
   }
@@ -82,7 +82,7 @@ const ProfilePage = () => {
                   className="mb-0"
                   rules={[
                     { required: true, message: 'Display name is required' },
-                    { max: 15, message: 'Keep it under 10 characters' },
+                    { max: 15, message: 'Keep it under 15 characters' },
                   ]}
                 >
                   <Input maxLength={15} placeholder="Your name" />
