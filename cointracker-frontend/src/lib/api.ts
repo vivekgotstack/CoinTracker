@@ -8,7 +8,8 @@ import {
 
 import type { AuthSession } from '@/types/auth'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const AUTH_PATHS = ['/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/auth/refresh']
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -42,7 +43,10 @@ api.interceptors.response.use(
   async (error) => {
     const original = error.config
 
-    if (error.response?.status !== 401 || original._retry) {
+    const requestPath = String(original?.url ?? '')
+    const isAuthRequest = AUTH_PATHS.some((path) => requestPath.includes(path))
+
+    if (error.response?.status !== 401 || original._retry || isAuthRequest) {
       return Promise.reject(error)
     }
 

@@ -1,121 +1,88 @@
 import {
+  ArrowLeft,
+  Home,
+  RefreshCcw,
+} from 'lucide-react'
+import {
   isRouteErrorResponse,
   useNavigate,
   useRouteError,
 } from 'react-router'
+import BrandMark from '@/components/shared/BrandMark'
 
-import { RefreshCcw, Home, ArrowLeft } from 'lucide-react'
-
-const RouteErrorPage = () => {
+const ErrorPage = () => {
   const error = useRouteError()
   const navigate = useNavigate()
-
   const isRouteError = isRouteErrorResponse(error)
-
   const status = isRouteError ? error.status : 500
 
   const title =
-      status === 404
-          ? 'Page not found'
-          : status === 401
-              ? 'Unauthorized access'
-              : status === 403
-                  ? 'Access denied'
-                  : 'Unexpected system error'
+    status === 404
+      ? 'Page not found'
+      : status === 401
+        ? 'Please sign in again'
+        : status === 403
+          ? 'This area is locked'
+          : 'Something needs a refresh'
 
   const message =
-      isRouteError
-          ? error.statusText
-          : error instanceof Error
-              ? error.message
-              : 'Something broke unexpectedly'
-
-  const handleRetry = () => {
-      window.location.reload()
-  }
-
-  const handleHome = () => {
-      navigate('/', { replace: true })
-  }
-
-  const handleBack = () => {
-      navigate(-1)
-  }
+    status === 404
+      ? 'That page moved, vanished, or never existed.'
+      : isRouteError
+        ? error.statusText
+        : error instanceof Error
+          ? error.message
+          : 'CoinTracker hit a rough edge while opening this view.'
 
   return (
-      <main className="relative flex min-h-screen items-center justify-center bg-[#f5f7fb] px-6">
+    <main className="flex min-h-screen items-center justify-center bg-transparent px-4 py-10">
+      <section className="glass-panel w-full max-w-2xl overflow-hidden rounded-3xl">
+        <div className="bg-[var(--hero)] p-6 sm:p-8">
+          <BrandMark />
+          <div className="mt-8 inline-flex rounded-full bg-[color-mix(in_srgb,var(--surface)_70%,transparent)] px-4 py-2 text-sm font-bold text-rose-600">
+            Error {status}
+          </div>
+          <h1 className="brand-font mt-4 text-4xl font-extrabold text-[var(--foreground)]">{title}</h1>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--muted)]">{message}</p>
+        </div>
 
-          {/* global glow system (consistent with app theme) */}
-          <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-violet-300/20 blur-3xl" />
-          <div className="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-blue-300/20 blur-3xl" />
+        <div className="grid grid-cols-1 gap-3 p-6 sm:grid-cols-3 sm:p-8">
+          <button
+            onClick={() => window.location.reload()}
+            className="flex items-center justify-center gap-2 rounded-2xl bg-[var(--primary)] py-3 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5"
+          >
+            <RefreshCcw size={16} />
+            Retry
+          </button>
 
-          <section className="relative z-10 w-full max-w-xl rounded-4xl border border-white/50 bg-white/70 backdrop-blur-2xl shadow-[0_20px_80px_rgba(15,23,42,0.08)] p-8">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center justify-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface-muted)] py-3 text-sm font-bold text-[var(--foreground)] transition hover:-translate-y-0.5"
+          >
+            <ArrowLeft size={16} />
+            Back
+          </button>
 
-              {/* status badge */}
-              <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-rose-500">
-                      Error {status}
-                  </span>
+          <button
+            onClick={() => navigate('/', { replace: true })}
+            className="flex items-center justify-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface-muted)] py-3 text-sm font-bold text-[var(--foreground)] transition hover:-translate-y-0.5"
+          >
+            <Home size={16} />
+            Home
+          </button>
+        </div>
 
-                  <span className="text-xs text-neutral-500">
-                      request_failed
-                  </span>
-              </div>
-
-              {/* title */}
-              <h1 className="mt-6 text-3xl font-semibold tracking-tight text-neutral-900">
-                  {title}
-              </h1>
-
-              <p className="mt-3 text-sm text-neutral-500 leading-relaxed">
-                  {message}
-              </p>
-
-              {/* actions */}
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
-
-                  <button
-                      onClick={handleRetry}
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-neutral-900 text-white py-3 text-sm font-semibold hover:bg-neutral-800 transition"
-                  >
-                      <RefreshCcw size={16} />
-                      Retry
-                  </button>
-
-                  <button
-                      onClick={handleBack}
-                      className="flex items-center justify-center gap-2 rounded-2xl border border-neutral-200 bg-white py-3 text-sm font-semibold text-neutral-800 hover:bg-neutral-50 transition"
-                  >
-                      <ArrowLeft size={16} />
-                      Back
-                  </button>
-
-                  <button
-                      onClick={handleHome}
-                      className="flex items-center justify-center gap-2 rounded-2xl border border-neutral-200 bg-white py-3 text-sm font-semibold text-neutral-800 hover:bg-neutral-50 transition"
-                  >
-                      <Home size={16} />
-                      Home
-                  </button>
-
-              </div>
-
-              {/* dev diagnostics */}
-              {import.meta.env.DEV && (
-                  <details className="mt-8 rounded-2xl bg-neutral-50 p-4 text-xs text-neutral-600">
-                      <summary className="cursor-pointer font-medium">
-                          Debug details
-                      </summary>
-
-                      <pre className="mt-3 overflow-auto whitespace-pre-wrap wrap-break-word text-[11px]">
-                          {JSON.stringify(error, null, 2)}
-                      </pre>
-                  </details>
-              )}
-
-          </section>
-      </main>
+        {import.meta.env.DEV && (
+          <details className="mx-6 mb-6 rounded-2xl bg-[var(--surface-muted)] p-4 text-xs text-[var(--muted)] sm:mx-8 sm:mb-8">
+            <summary className="cursor-pointer font-semibold text-[var(--foreground)]">Debug details</summary>
+            <pre className="mt-3 overflow-auto whitespace-pre-wrap text-[11px]">
+              {JSON.stringify(error, null, 2)}
+            </pre>
+          </details>
+        )}
+      </section>
+    </main>
   )
 }
 
-export default RouteErrorPage
+export default ErrorPage

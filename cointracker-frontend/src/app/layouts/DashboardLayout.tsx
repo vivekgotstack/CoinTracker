@@ -1,28 +1,29 @@
 import { Outlet } from 'react-router'
-
-import Sidebar from '../../components/shared/Sidebar'
-import Navbar from '../../components/shared/Navbar'
+import Sidebar from '@/components/shared/Sidebar'
+import Navbar from '@/components/shared/Navbar'
+import { useAuth } from '@/hooks/UseAuth'
+import MobileNav from '@/components/shared/MobileNav'
 
 const DashboardLayout = () => {
-    return (
-        <div className="flex min-h-screen bg-[#f5f7fb]">
+  const { user } = useAuth()
 
-            {/* Fixed sidebar column */}
-            <Sidebar />
+  return (
+    <div className="flex min-h-screen bg-transparent">
+      <Sidebar />
 
-            {/* Main content area */}
-            <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <Navbar user={user} />
 
-                <Navbar />
+        <main className="flex-1 px-4 pb-28 pt-7 sm:px-6 sm:pt-8 lg:px-8 lg:pb-10 lg:pt-10">
+          <div className="mx-auto w-full max-w-7xl animate-float-in">
+            <Outlet />
+          </div>
+        </main>
+      </div>
 
-                <main className="flex-1 p-6">
-                    <Outlet />
-                </main>
-
-            </div>
-
-        </div>
-    )
+      <MobileNav />
+    </div>
+  )
 }
 
 export default DashboardLayout

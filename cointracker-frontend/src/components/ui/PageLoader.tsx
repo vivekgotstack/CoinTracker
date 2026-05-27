@@ -1,20 +1,22 @@
+import BrandMark from '@/components/shared/BrandMark'
+
 const PageLoader = () => {
-    return (
-        <div className="flex min-h-screen w-full items-center justify-center bg-[#f5f7fb]">
-
-            {/* subtle pulse system */}
-            <div className="space-y-4 text-center">
-
-                <div className="mx-auto h-10 w-10 animate-pulse rounded-xl bg-violet-400/30" />
-
-                <div className="h-3 w-40 animate-pulse rounded bg-neutral-200" />
-
-                <div className="h-2 w-28 animate-pulse rounded bg-neutral-100" />
-
-            </div>
-
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-[var(--app-bg)] px-4">
+      <div className="glass-panel w-full max-w-md rounded-3xl p-8 text-center">
+        <div className="flex justify-center">
+          <BrandMark compact />
         </div>
-    )
+        <h1 className="brand-font mt-5 text-2xl font-bold text-[var(--foreground)]">CoinTracker</h1>
+        <p className="mt-2 text-sm text-[var(--muted)]">Warming up your money view</p>
+        <div className="mt-6 space-y-3">
+          <div className="skeleton-shimmer h-3 rounded-full" />
+          <div className="skeleton-shimmer mx-auto h-3 w-4/5 rounded-full" />
+          <div className="skeleton-shimmer mx-auto h-3 w-2/3 rounded-full" />
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default PageLoader

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter } from 'react-router'
 import { lazy, Suspense } from 'react'
 
@@ -20,6 +21,8 @@ const IncomePage = lazy(() => import('../pages/transactions/IncomePage'))
 const ExpensePage = lazy(() => import('../pages/transactions/ExpensePage'))
 const LoginPage = lazy(() => import('../pages/auth/LoginPage'))
 const SignupPage = lazy(() => import('../pages/auth/SignupPage'))
+const ForgotPasswordPage = lazy(() => import('../pages/auth/ForgotPasswordPage'))
+const ResetPasswordPage = lazy(() => import('../pages/auth/ResetPasswordPage'))
 
 /* single suspense wrapper ONLY */
 const withSuspense = (node: React.ReactNode) => (
@@ -39,6 +42,14 @@ export const router = createBrowserRouter([
             {
                 path: '/signup',
                 Component: () => withSuspense(<SignupPage />),
+            },
+            {
+                path: '/forgot-password',
+                Component: () => withSuspense(<ForgotPasswordPage />),
+            },
+            {
+                path: '/reset-password',
+                Component: () => withSuspense(<ResetPasswordPage />),
             },
         ],
     },

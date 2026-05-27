@@ -1,6 +1,6 @@
 import type { AuthSession } from "@/types/auth"
 
-const AUTH_KEY = 'cointracker_session'
+const AUTH_KEY = import.meta.env.VITE_AUTH_STORAGE_KEY ?? 'cointracker_session'
 
 export const saveSession = (session: AuthSession) => {
   if (!session.accessToken || !session.refreshToken) return

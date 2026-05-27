@@ -1,75 +1,82 @@
-type Transaction = {
-    id: number
-    name: string
-    amount: number
-    type: 'INCOME' | 'EXPENSE'
-    date: string
-    icon?: string
-  }
-  
-  type Props = {
-    data: Transaction[]
-  }
-  
-  const RecentTransactions = ({ data }: Props) => {
-    return (
-      <div className="rounded-4xl border border-white/50 bg-white/75 p-6 shadow-[0_12px_40px_rgba(15,23,42,0.06)] backdrop-blur-2xl">
-  
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-neutral-900">
-            Recent Transactions
-          </h2>
-  
-          <p className="text-sm text-neutral-500">
-            Latest activity
-          </p>
-        </div>
-  
-        <div className="space-y-3">
-  
-          {data?.length ? (
-            data.map((tx) => {
-              const isIncome = tx.type === 'INCOME'
-  
-              return (
-                <div
-                  key={tx.id}
-                  className="flex items-center justify-between rounded-2xl border border-neutral-100 bg-white/60 p-4"
-                >
-  
-                  <div>
-                    <p className="font-medium text-neutral-900">
-                      {tx.name}
-                    </p>
-  
-                    <p className="text-sm text-neutral-500">
-                      {tx.date}
-                    </p>
-                  </div>
-  
-                  <span
-                    className={
-                      isIncome
-                        ? 'font-semibold text-emerald-600'
-                        : 'font-semibold text-rose-500'
-                    }
-                  >
-                    {isIncome ? '+' : '-'}₹{tx.amount}
-                  </span>
-  
-                </div>
-              )
-            })
-          ) : (
-            <p className="text-sm text-neutral-500">
-              No transactions yet
-            </p>
-          )}
-  
-        </div>
-  
+import type { Transaction } from '@/types/transaction'
+import { formatCurrency, formatDate } from '@/lib/format'
+import { renderEntityIcon } from '@/lib/icons'
+import { useMemo, useState } from 'react'
+import { Pagination } from 'antd'
+import { useUserPreferences } from '@/contexts/UserPreferencesContext'
+
+type Props = {
+  data: Transaction[]
+  title?: string
+  subtitle?: string
+}
+
+const RecentTransactions = ({
+  data,
+  title = 'Recent Transactions',
+  subtitle = 'Your newest money moves',
+}: Props) => {
+  const [page, setPage] = useState(1)
+  const { preferences } = useUserPreferences()
+  const pageSize = 5
+  const paginatedData = useMemo(
+    () => data.slice((page - 1) * pageSize, page * pageSize),
+    [data, page]
+  )
+
+  return (
+    <section className="glass-panel rounded-2xl p-5">
+      <div className="mb-5">
+        <h2 className="text-lg font-semibold text-neutral-950 dark:text-white">{title}</h2>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">{subtitle}</p>
       </div>
-    )
-  }
-  
-  export default RecentTransactions
+
+      <div className="space-y-2">
+        {data.length ? (
+          paginatedData.map((transaction) => {
+            const isIncome = transaction.type === 'INCOME'
+
+            return (
+              <div
+                key={transaction.id}
+                className="flex items-center justify-between gap-4 rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-4 py-3"
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface)] text-xl shadow-sm">
+                    {renderEntityIcon(transaction.icon, isIncome ? '💸' : '🧾')}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="truncate font-medium text-[var(--foreground)]">{transaction.name}</p>
+                    <p className="text-sm text-[var(--muted)]">{formatDate(transaction.date)}</p>
+                  </div>
+                </div>
+
+                <span className={isIncome ? 'font-semibold text-emerald-700' : 'font-semibold text-rose-700'}>
+                  {preferences.hideAmounts ? 'Hidden' : `${isIncome ? '+' : '-'}${formatCurrency(transaction.amount)}`}
+                </span>
+              </div>
+            )
+          })
+        ) : (
+          <p className="rounded-lg border border-dashed border-[var(--border)] p-4 text-sm text-[var(--muted)]">
+            No transactions yet
+          </p>
+        )}
+      </div>
+
+      {data.length > pageSize ? (
+        <div className="mt-4 flex justify-end">
+          <Pagination
+            size="small"
+            current={page}
+            total={data.length}
+            pageSize={pageSize}
+            onChange={setPage}
+          />
+        </div>
+      ) : null}
+    </section>
+  )
+}
+
+export default RecentTransactions
