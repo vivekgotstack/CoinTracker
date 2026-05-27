@@ -97,7 +97,7 @@ const ProfilePage = () => {
             <div className="flex flex-col gap-3 rounded-2xl bg-[var(--surface-muted)] p-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Current name</p>
-                <p className="brand-font text-2xl font-bold text-[var(--foreground)]">{displayName}</p>
+                <p className="brand-font text-lg font-bold text-[var(--foreground)]">{displayName}</p>
               </div>
               <Button
                 icon={<Edit3 size={15} />}

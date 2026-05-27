@@ -39,7 +39,7 @@ const RecentTransactions = ({
             return (
               <div
                 key={transaction.id}
-                className="flex items-center justify-between gap-4 rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-4 py-3"
+                className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-3 sm:gap-4 sm:px-4"
               >
                 <div className="flex min-w-0 items-center gap-3">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface)] text-xl shadow-sm">
@@ -51,7 +51,7 @@ const RecentTransactions = ({
                   </div>
                 </div>
 
-                <span className={isIncome ? 'font-semibold text-emerald-700' : 'font-semibold text-rose-700'}>
+                <span className={(isIncome ? 'font-semibold text-emerald-700' : 'font-semibold text-rose-700') + ' shrink-0 text-sm'}>
                   {preferences.hideAmounts ? 'Hidden' : `${isIncome ? '+' : '-'}${formatCurrency(transaction.amount)}`}
                 </span>
               </div>

@@ -29,26 +29,29 @@ const Navbar = ({ user }: NavbarProps) => {
 
   return (
     <header className="sticky top-0 z-20 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_90%,transparent)] backdrop-blur-xl">
-      <div className="flex min-h-24 items-center justify-between gap-3 px-3 py-3 sm:gap-4 sm:px-6">
+      <div className="app-navbar min-h-24 gap-3 px-3 py-3 sm:gap-4 sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
-          <BrandMark compact className="lg:hidden" />
+          <BrandMark compact className="hidden sm:flex lg:hidden" />
 
-          <div className="min-w-0 rounded-3xl bg-[var(--hero)] px-4 py-3 shadow-sm sm:min-w-80 sm:px-5">
+          <div className="min-w-0 max-w-[46vw] rounded-3xl bg-[var(--hero)] px-3 py-3 shadow-sm sm:max-w-none sm:min-w-64 sm:px-5 xl:min-w-80">
             <p className="text-xs font-semibold uppercase tracking-wide text-[var(--primary)]">
               {isFirstLogin || !hasCustomName ? 'Welcome to CoinTracker' : 'Welcome back'}
             </p>
-            <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+            <div className="mt-2">
               <h2 className="brand-font truncate text-xl font-bold text-[var(--foreground)] sm:text-2xl">
                 {displayName}
               </h2>
-              <span className="w-fit rounded-full bg-[color-mix(in_srgb,var(--surface)_70%,transparent)] px-3 py-1 text-xs font-semibold text-[var(--muted)]">
-                Today feels trackable
-              </span>
             </div>
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="app-navbar-center">
+          <span className="inline-flex rounded-full bg-[color-mix(in_srgb,var(--surface)_72%,transparent)] px-4 py-2 text-xs font-bold text-[var(--muted)] shadow-sm">
+            Today feels trackable
+          </span>
+        </div>
+
+        <div className="app-navbar-actions flex shrink-0 items-center gap-2">
           <Button
             aria-label="Toggle theme"
             icon={isDark ? <Sun size={16} /> : <Moon size={16} />}

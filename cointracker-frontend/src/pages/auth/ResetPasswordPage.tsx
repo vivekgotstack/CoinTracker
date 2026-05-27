@@ -24,8 +24,8 @@ const ResetPasswordPage = () => {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-neutral-100 px-4 dark:bg-neutral-950">
-      <section className="w-full max-w-md rounded-lg border border-neutral-200 bg-white p-8 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+    <main className="flex min-h-screen items-center justify-center bg-transparent px-4">
+      <section className="glass-panel w-full max-w-md rounded-3xl p-8">
         <h1 className="text-3xl font-semibold text-neutral-950 dark:text-white">New password</h1>
         <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
           Set a new password using the token from your email.

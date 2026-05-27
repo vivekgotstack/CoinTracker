@@ -5,6 +5,7 @@ import { getApiErrorMessage } from '@/lib/errors'
 import { useTheme } from '@/contexts/ThemeContext'
 import { useAuth } from '@/hooks/UseAuth'
 import { useUserPreferences } from '@/contexts/UserPreferencesContext'
+import { useResetCooldown } from '@/hooks/UseResetCooldown'
 
 type SecurityForm = {
   email: string
@@ -14,10 +15,17 @@ const SettingsPage = () => {
   const { theme, setTheme } = useTheme()
   const { user } = useAuth()
   const { preferences, updatePreferences } = useUserPreferences()
+  const resetCooldown = useResetCooldown()
 
   const handlePasswordReset = async (values: SecurityForm) => {
+    if (resetCooldown.disabled) {
+      message.info(resetCooldown.label)
+      return
+    }
+
     try {
       const response = await forgotPassword(values.email)
+      resetCooldown.start()
       message.success(response)
     } catch (error) {
       message.error(getApiErrorMessage(error, 'Unable to send reset email'))
@@ -163,8 +171,8 @@ const SettingsPage = () => {
               >
                 <Input placeholder="Email address" />
               </Form.Item>
-              <Button type="primary" htmlType="submit">
-                Send reset link
+              <Button type="primary" htmlType="submit" disabled={resetCooldown.disabled}>
+                {resetCooldown.label}
               </Button>
             </Form>
           </div>

@@ -12,7 +12,7 @@ const items = [
 
 const MobileNav = () => {
   return (
-    <nav className="fixed inset-x-3 bottom-3 z-30 grid grid-cols-5 rounded-2xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] p-2 shadow-2xl backdrop-blur-xl lg:hidden">
+    <nav className="fixed inset-x-3 bottom-3 z-30 grid max-w-[calc(100vw-24px)] grid-cols-5 rounded-2xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] p-2 shadow-2xl backdrop-blur-xl lg:hidden">
       {items.map((item) => {
         const Icon = item.icon
 

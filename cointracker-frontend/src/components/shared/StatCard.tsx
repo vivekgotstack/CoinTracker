@@ -23,7 +23,7 @@ const StatCard = ({ title, amount, icon, detail, tone }: StatCardProps) => {
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <p className="text-sm text-[var(--muted)]">{title}</p>
-          <h3 className="mt-2 text-2xl font-semibold text-[var(--foreground)]">{amount}</h3>
+          <h3 className="mt-2 break-words text-2xl font-semibold text-[var(--foreground)]">{amount}</h3>
         </div>
 
         <div className={cn('flex h-11 w-11 shrink-0 items-center justify-center rounded-lg', toneClasses[tone])}>
