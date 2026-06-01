@@ -20,11 +20,11 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update # don't forgt to use validate or none in production
-    show-sql: true
+      ddl-auto: validate # don't forgt to use validate or none in production
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
 
   mail:
     host: smtp-relay.brevo.com
