@@ -53,7 +53,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        config.setAllowedOrigins(List.of("https://cointracker-backend.onrender.com"));
+        config.setAllowedOrigins(List.of("http://localhost:5173", "https://cointracker-pwa.vercel.app"));
         config.setAllowCredentials(true);
         config.addExposedHeader("Authorization");
         UrlBasedCorsConfigurationSource configurationSource = new UrlBasedCorsConfigurationSource();
