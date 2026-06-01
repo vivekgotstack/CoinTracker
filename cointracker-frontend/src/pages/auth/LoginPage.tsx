@@ -77,13 +77,13 @@ const LoginPage = () => {
         <div className="mt-5 grid gap-2 sm:grid-cols-2">
           <Link
             to="/forgot-password"
-            className="rounded-2xl bg-[var(--surface-muted)] px-4 py-3 text-center text-sm font-medium text-teal-700 transition hover:-translate-y-0.5 hover:shadow-md dark:text-teal-300"
+            className="rounded-2xl bg-(--surface-muted) px-4 py-3 text-center text-sm font-medium text-teal-700 transition hover:-translate-y-0.5 hover:shadow-md dark:text-teal-300"
           >
             Forgot password?
           </Link>
           <Link
             to="/signup"
-            className="rounded-2xl bg-[var(--surface-muted)] px-4 py-3 text-center text-sm font-medium text-[var(--foreground)] transition hover:-translate-y-0.5 hover:shadow-md"
+            className="rounded-2xl bg-(--surface-muted) px-4 py-3 text-center text-sm font-medium text-(--foreground) transition hover:-translate-y-0.5 hover:shadow-md"
           >
             Create account
           </Link>

@@ -11,7 +11,7 @@ export const useResetCooldown = () => {
   useEffect(() => {
     const interval = window.setInterval(() => {
       setRemaining(getResetCooldownRemaining())
-    }, 1000 * 30)
+    }, 1000 * 5)
 
     return () => window.clearInterval(interval)
   }, [])
