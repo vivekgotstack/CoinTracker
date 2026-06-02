@@ -165,7 +165,7 @@ const AnalyticsPage = () => {
           ))}
         </div>
 
-        <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem] xl:items-end py-5">
+        <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem] xl:items-end">
           <div>
             <p className="text-sm font-semibold text-(--primary)">Stats</p>
             <h1 className="brand-font mt-2 text-3xl font-bold text-(--foreground) sm:text-4xl">
@@ -177,7 +177,7 @@ const AnalyticsPage = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-5">
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] px-5">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase text-(--muted)">
                 <Target size={15} />
                 Savings Rate
@@ -186,7 +186,7 @@ const AnalyticsPage = () => {
                 {preferences.hideAmounts ? 'Hidden' : `${stats.savingsRate.toFixed(1)}%`}
               </p>
             </div>
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] px-5">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase text-(--muted)">
                 <Gauge size={15} />
                 Net Flow
@@ -273,7 +273,7 @@ const AnalyticsPage = () => {
         </Panel>
       </section>
 
-      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(320px,0.75fr)_minmax(0,1.25fr)] py-10">
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(320px,0.75fr)_minmax(0,1.25fr)] py-10">
         <Panel
           icon={<Wallet size={19} />}
           title="Expense Concentration"
