@@ -164,6 +164,23 @@ canvas {
     }
 }
 
+@keyframes cash-drift {
+    0% {
+        opacity: 0;
+        transform: translate3d(-16px, -22px, 0) rotate(-18deg) scale(0.82);
+    }
+    16% {
+        opacity: 0.72;
+    }
+    72% {
+        opacity: 0.62;
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(54px, 118px, 0) rotate(22deg) scale(1);
+    }
+}
+
 .animate-float-in {
     animation: float-in 420ms ease-out both;
 }
@@ -194,6 +211,75 @@ canvas {
     width: 40%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.52), transparent);
     animation: shine-sweep 3.2s ease-in-out infinite;
+}
+
+.stats-hero {
+    isolation: isolate;
+}
+
+.cash-coin {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    width: 18px;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.88), transparent 28%),
+        linear-gradient(135deg, #fbbf24, #f59e0b);
+    box-shadow: 0 10px 24px rgba(245, 158, 11, 0.24);
+    animation: cash-drift 1.9s ease-out both;
+}
+
+.cash-coin::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(120, 53, 15, 0.34);
+    border-radius: inherit;
+}
+
+.cash-coin-0 {
+    left: 12%;
+    animation-delay: 80ms;
+}
+
+.cash-coin-1 {
+    left: 28%;
+    width: 14px;
+    animation-delay: 210ms;
+}
+
+.cash-coin-2 {
+    left: 47%;
+    animation-delay: 20ms;
+}
+
+.cash-coin-3 {
+    left: 66%;
+    width: 15px;
+    animation-delay: 300ms;
+}
+
+.cash-coin-4 {
+    left: 82%;
+    animation-delay: 140ms;
+}
+
+.cash-coin-5 {
+    left: 92%;
+    width: 13px;
+    animation-delay: 380ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-float-in,
+    .skeleton-shimmer,
+    .brand-orbit,
+    .brand-orbit::after,
+    .cash-coin {
+        animation: none !important;
+    }
 }
 
 .ant-modal-content,

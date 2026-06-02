@@ -2,7 +2,7 @@ import BrandMark from '@/components/shared/BrandMark'
 
 const PageLoader = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-(--app-bg) px-4">
+    <div className="flex min-h-[min(100vh,680px)] items-start justify-center bg-(--app-bg) px-4 pt-10 sm:pt-16">
       <div className="glass-panel w-full max-w-md rounded-3xl p-8 text-center">
         <div className="flex justify-center">
           <BrandMark compact />
