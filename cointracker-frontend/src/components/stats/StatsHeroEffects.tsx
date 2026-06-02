@@ -4,7 +4,6 @@ type StatsHeroEffectsProps = {
   isBehind: boolean
 }
 
-const cashNotes = Array.from({ length: 11 }, (_, index) => index)
 const sparks = Array.from({ length: 7 }, (_, index) => index)
 
 const StatsHeroEffects = ({ isBehind }: StatsHeroEffectsProps) => {
@@ -13,11 +12,7 @@ const StatsHeroEffects = ({ isBehind }: StatsHeroEffectsProps) => {
       className={`stats-visuals ${isBehind ? 'stats-visuals-warning' : 'stats-visuals-profit'}`}
       aria-hidden="true"
     >
-      {cashNotes.map((item) => (
-        <span key={`note-${item}`} className={`cash-note cash-note-${item}`}>
-          {'\u{1F4B5}'}
-        </span>
-      ))}
+      <span className="cash-note">{'\u{1F4B5}'}</span>
 
       {isBehind
         ? sparks.map((item) => (

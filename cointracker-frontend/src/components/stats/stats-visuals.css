@@ -12,97 +12,14 @@
 
 .cash-note {
   position: absolute;
-  top: -52px;
-  left: 50%;
-  font-size: 3.8rem;
+  top: 14px;
+  right: 12%;
+  font-size: 3.15rem;
   line-height: 1;
-  filter: drop-shadow(0 18px 26px rgba(5, 150, 105, 0.24));
+  filter: drop-shadow(0 14px 24px rgba(5, 150, 105, 0.24));
   opacity: 0;
   transform-origin: center;
-  animation: cash-note-float 2.35s ease-out both;
-}
-
-.cash-note-0 {
-  left: 4%;
-  animation-delay: 40ms;
-  --cash-x: 22px;
-  --cash-r: 16deg;
-}
-
-.cash-note-1 {
-  left: 13%;
-  font-size: 3.4rem;
-  animation-delay: 220ms;
-  --cash-x: -14px;
-  --cash-r: -20deg;
-}
-
-.cash-note-2 {
-  left: 24%;
-  animation-delay: 120ms;
-  --cash-x: 34px;
-  --cash-r: 28deg;
-}
-
-.cash-note-3 {
-  left: 34%;
-  font-size: 4.15rem;
-  animation-delay: 360ms;
-  --cash-x: -24px;
-  --cash-r: -12deg;
-}
-
-.cash-note-4 {
-  left: 46%;
-  animation-delay: 20ms;
-  --cash-x: 12px;
-  --cash-r: 22deg;
-}
-
-.cash-note-5 {
-  left: 58%;
-  font-size: 3.45rem;
-  animation-delay: 280ms;
-  --cash-x: -38px;
-  --cash-r: -30deg;
-}
-
-.cash-note-6 {
-  left: 68%;
-  animation-delay: 150ms;
-  --cash-x: 28px;
-  --cash-r: 14deg;
-}
-
-.cash-note-7 {
-  left: 78%;
-  font-size: 4.2rem;
-  animation-delay: 430ms;
-  --cash-x: -18px;
-  --cash-r: -24deg;
-}
-
-.cash-note-8 {
-  left: 88%;
-  animation-delay: 80ms;
-  --cash-x: -42px;
-  --cash-r: 20deg;
-}
-
-.cash-note-9 {
-  left: 96%;
-  font-size: 3.25rem;
-  animation-delay: 520ms;
-  --cash-x: -58px;
-  --cash-r: -18deg;
-}
-
-.cash-note-10 {
-  left: 39%;
-  font-size: 3.7rem;
-  animation-delay: 640ms;
-  --cash-x: 50px;
-  --cash-r: 34deg;
+  animation: cash-note-float 2.6s ease-out both;
 }
 
 .electric-spark {
@@ -232,17 +149,17 @@
 @keyframes cash-note-float {
   0% {
     opacity: 0;
-    transform: translate3d(-18px, -28px, 0) rotate(calc(var(--cash-r) * -0.65)) scale(0.82);
+    transform: translate3d(18px, -22px, 0) rotate(-10deg) scale(0.9);
   }
-  15% {
-    opacity: 1;
+  18% {
+    opacity: 0.9;
   }
-  68% {
-    opacity: 0.94;
+  70% {
+    opacity: 0.62;
   }
   100% {
     opacity: 0;
-    transform: translate3d(calc(var(--cash-x) * 1.15), 132px, 0) rotate(var(--cash-r)) scale(1.02);
+    transform: translate3d(-26px, 108px, 0) rotate(12deg) scale(0.96);
   }
 }
 

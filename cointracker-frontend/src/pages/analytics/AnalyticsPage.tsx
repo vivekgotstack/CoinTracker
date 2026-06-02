@@ -143,24 +143,17 @@ const AnalyticsPage = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:gap-4">
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)]">
-              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs p-5">
-                <Target size={15} />
-                Savings Rate
-              </div>
-              <p className="mt-4 wrap-break-word text-2xl font-bold leading-tight text-(--foreground)">
-                {preferences.hideAmounts ? 'Hidden' : `${stats.savingsRate.toFixed(1)}%`}
-              </p>
-            </div>
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] py-10">
-              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs p-5">
-                <Gauge size={15} />
-                Net Flow
-              </div>
-              <p className={`mt-4 wrap-break-word text-2xl font-bold leading-tight ${stats.netFlow >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
-                {money(stats.netFlow)}
-              </p>
-            </div>
+            <HeroMetric
+              icon={<Target size={16} />}
+              label="Savings Rate"
+              value={preferences.hideAmounts ? 'Hidden' : `${stats.savingsRate.toFixed(1)}%`}
+            />
+            <HeroMetric
+              icon={<Gauge size={16} />}
+              label="Net Flow"
+              value={money(stats.netFlow)}
+              tone={stats.netFlow >= 0 ? 'positive' : 'negative'}
+            />
           </div>
         </div>
       </section>
@@ -336,6 +329,31 @@ type MetricCardProps = {
   detail: string
   tone: 'income' | 'expense'
 }
+
+type HeroMetricProps = {
+  icon: ReactNode
+  label: string
+  value: string
+  tone?: 'positive' | 'negative'
+}
+
+const HeroMetric = ({ icon, label, value, tone }: HeroMetricProps) => (
+  <div className="min-h-32 rounded-2xl bg-[color-mix(in_srgb,var(--surface)_80%,transparent)] p-5 shadow-sm sm:p-6">
+    <div className="flex items-center gap-2 text-xs font-semibold uppercase text-(--muted)">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-(--surface) text-(--primary)">
+        {icon}
+      </span>
+      <span>{label}</span>
+    </div>
+    <p
+      className={`mt-6 break-words text-2xl font-extrabold leading-tight ${
+        tone === 'positive' ? 'text-emerald-700' : tone === 'negative' ? 'text-rose-700' : 'text-(--foreground)'
+      }`}
+    >
+      {value}
+    </p>
+  </div>
+)
 
 const MetricCard = ({ icon, label, value, detail, tone }: MetricCardProps) => (
   <div className="glass-panel rounded-2xl p-5">
