@@ -12,27 +12,14 @@
 
 .cash-note {
   position: absolute;
-  top: -56px;
+  top: -52px;
   left: 50%;
-  width: 64px;
-  height: 32px;
-  border: 1px solid rgba(4, 120, 87, 0.42);
-  border-radius: 7px;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.86) 0 14%, transparent 15%),
-    linear-gradient(90deg, rgba(4, 120, 87, 0.22), transparent 17% 83%, rgba(4, 120, 87, 0.22)),
-    linear-gradient(135deg, #d9f99d, #6ee7b7 58%, #a7f3d0);
-  box-shadow: 0 16px 34px rgba(5, 150, 105, 0.26);
+  font-size: 3.8rem;
+  line-height: 1;
+  filter: drop-shadow(0 18px 26px rgba(5, 150, 105, 0.24));
   opacity: 0;
   transform-origin: center;
-  animation: cash-note-rain 3.6s cubic-bezier(0.18, 0.72, 0.24, 1) both;
-}
-
-.cash-note span {
-  position: absolute;
-  inset: 6px 10px;
-  border: 1px solid rgba(6, 95, 70, 0.34);
-  border-radius: 5px;
+  animation: cash-note-float 2.35s ease-out both;
 }
 
 .cash-note-0 {
@@ -40,16 +27,14 @@
   animation-delay: 40ms;
   --cash-x: 22px;
   --cash-r: 16deg;
-  --cash-y: 270px;
 }
 
 .cash-note-1 {
   left: 13%;
-  width: 58px;
+  font-size: 3.4rem;
   animation-delay: 220ms;
   --cash-x: -14px;
   --cash-r: -20deg;
-  --cash-y: 238px;
 }
 
 .cash-note-2 {
@@ -57,16 +42,14 @@
   animation-delay: 120ms;
   --cash-x: 34px;
   --cash-r: 28deg;
-  --cash-y: 306px;
 }
 
 .cash-note-3 {
   left: 34%;
-  width: 70px;
+  font-size: 4.15rem;
   animation-delay: 360ms;
   --cash-x: -24px;
   --cash-r: -12deg;
-  --cash-y: 252px;
 }
 
 .cash-note-4 {
@@ -74,16 +57,14 @@
   animation-delay: 20ms;
   --cash-x: 12px;
   --cash-r: 22deg;
-  --cash-y: 292px;
 }
 
 .cash-note-5 {
   left: 58%;
-  width: 56px;
+  font-size: 3.45rem;
   animation-delay: 280ms;
   --cash-x: -38px;
   --cash-r: -30deg;
-  --cash-y: 222px;
 }
 
 .cash-note-6 {
@@ -91,16 +72,14 @@
   animation-delay: 150ms;
   --cash-x: 28px;
   --cash-r: 14deg;
-  --cash-y: 318px;
 }
 
 .cash-note-7 {
   left: 78%;
-  width: 72px;
+  font-size: 4.2rem;
   animation-delay: 430ms;
   --cash-x: -18px;
   --cash-r: -24deg;
-  --cash-y: 266px;
 }
 
 .cash-note-8 {
@@ -108,36 +87,31 @@
   animation-delay: 80ms;
   --cash-x: -42px;
   --cash-r: 20deg;
-  --cash-y: 236px;
 }
 
 .cash-note-9 {
   left: 96%;
-  width: 54px;
+  font-size: 3.25rem;
   animation-delay: 520ms;
   --cash-x: -58px;
   --cash-r: -18deg;
-  --cash-y: 304px;
 }
 
 .cash-note-10 {
   left: 39%;
-  width: 60px;
+  font-size: 3.7rem;
   animation-delay: 640ms;
   --cash-x: 50px;
   --cash-r: 34deg;
-  --cash-y: 248px;
 }
 
 .electric-spark {
   position: absolute;
-  width: 4px;
-  height: 62px;
-  background: linear-gradient(#fef3c7, #38bdf8, #fef08a);
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.82), 0 0 34px rgba(250, 204, 21, 0.46);
-  clip-path: polygon(52% 0, 100% 0, 63% 38%, 100% 38%, 35% 100%, 48% 55%, 0 55%);
+  font-size: 3.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.92)) drop-shadow(0 0 28px rgba(250, 204, 21, 0.52));
   opacity: 0;
-  animation: electric-flash 2.4s ease-out both;
+  animation: electric-flash 2.2s ease-out both;
 }
 
 .electric-spark-0 {
@@ -234,24 +208,6 @@
   opacity: 0.74;
 }
 
-.savings-badge-compact {
-  padding: 5px 11px 5px 6px;
-}
-
-.savings-badge-compact .savings-badge-icon {
-  width: 26px;
-  height: 26px;
-}
-
-.savings-badge-compact .savings-badge-name {
-  max-width: 9rem;
-  font-size: 0.82rem;
-}
-
-.savings-badge-compact .savings-badge-label {
-  font-size: 0.58rem;
-}
-
 .savings-badge-silver {
   border-color: rgba(203, 213, 225, 0.74);
   background:
@@ -273,24 +229,20 @@
   animation: badge-sheen 3.5s ease-in-out infinite, badge-glow 3.8s ease-in-out infinite;
 }
 
-@keyframes cash-note-rain {
+@keyframes cash-note-float {
   0% {
     opacity: 0;
-    transform: translate3d(0, -40px, 0) rotate(calc(var(--cash-r) * -0.6)) scale(0.86);
+    transform: translate3d(-18px, -28px, 0) rotate(calc(var(--cash-r) * -0.65)) scale(0.82);
   }
-  12% {
-    opacity: 0.95;
+  15% {
+    opacity: 1;
   }
-  54% {
-    opacity: 0.78;
-  }
-  82% {
-    opacity: 0;
-    transform: translate3d(calc(var(--cash-x) * 0.82), calc(var(--cash-y) * 0.82), 0) rotate(calc(var(--cash-r) * 0.82)) scale(0.98);
+  68% {
+    opacity: 0.94;
   }
   100% {
     opacity: 0;
-    transform: translate3d(var(--cash-x), var(--cash-y), 0) rotate(var(--cash-r)) scale(0.94);
+    transform: translate3d(calc(var(--cash-x) * 1.15), 132px, 0) rotate(var(--cash-r)) scale(1.02);
   }
 }
 
@@ -300,12 +252,12 @@
   40%,
   100% {
     opacity: 0;
-    transform: translateY(-10px) scaleY(0.72);
+    transform: translateY(-10px) scale(0.72) rotate(-8deg);
   }
   8%,
   26% {
     opacity: 0.95;
-    transform: translateY(0) scaleY(1);
+    transform: translateY(0) scale(1) rotate(6deg);
   }
 }
 

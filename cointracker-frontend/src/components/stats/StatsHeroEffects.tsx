@@ -15,12 +15,16 @@ const StatsHeroEffects = ({ isBehind }: StatsHeroEffectsProps) => {
     >
       {cashNotes.map((item) => (
         <span key={`note-${item}`} className={`cash-note cash-note-${item}`}>
-          <span />
+          {'\u{1F4B5}'}
         </span>
       ))}
 
       {isBehind
-        ? sparks.map((item) => <span key={`spark-${item}`} className={`electric-spark electric-spark-${item}`} />)
+        ? sparks.map((item) => (
+            <span key={`spark-${item}`} className={`electric-spark electric-spark-${item}`}>
+              {'\u26A1'}
+            </span>
+          ))
         : null}
     </div>
   )

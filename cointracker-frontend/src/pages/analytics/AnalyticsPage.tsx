@@ -143,21 +143,21 @@ const AnalyticsPage = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:gap-4">
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-4 sm:p-5">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5 sm:p-6">
               <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs">
                 <Target size={15} />
                 Savings Rate
               </div>
-              <p className="mt-2 wrap-break-word text-2xl font-bold leading-tight text-(--foreground)">
+              <p className="mt-4 wrap-break-word text-2xl font-bold leading-tight text-(--foreground)">
                 {preferences.hideAmounts ? 'Hidden' : `${stats.savingsRate.toFixed(1)}%`}
               </p>
             </div>
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-4 sm:p-5">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5 sm:p-6">
               <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs">
                 <Gauge size={15} />
                 Net Flow
               </div>
-              <p className={`mt-2 wrap-break-word text-2xl font-bold leading-tight ${stats.netFlow >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
+              <p className={`mt-4 wrap-break-word text-2xl font-bold leading-tight ${stats.netFlow >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
                 {money(stats.netFlow)}
               </p>
             </div>

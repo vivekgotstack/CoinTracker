@@ -45,7 +45,7 @@ const Navbar = ({ user }: NavbarProps) => {
         <div className="flex min-w-0 items-center gap-3">
           <BrandMark compact className="hidden sm:flex lg:hidden" />
 
-          <div className="min-w-0 max-w-[48vw] rounded-3xl bg-(--hero) px-3 py-3 shadow-sm sm:max-w-none sm:min-w-72 sm:px-5 xl:min-w-88">
+          <div className="min-w-0 max-w-[58vw] rounded-3xl bg-(--hero) px-3 py-3 shadow-sm sm:max-w-none sm:min-w-80 sm:px-5 xl:min-w-96">
             <p className="text-xs font-semibold uppercase tracking-wide text-(--primary)">
               {isFirstLogin || !hasCustomName ? 'Welcome to CoinTracker' : 'Welcome back'}
             </p>
@@ -54,7 +54,7 @@ const Navbar = ({ user }: NavbarProps) => {
                 {displayName}
               </h2>
               <div className="mt-3">
-                <SavingsBadge compact displayName={displayName} savingsRate={savingsRate} />
+                <SavingsBadge displayName={displayName} savingsRate={savingsRate} showName={false} />
               </div>
             </div>
           </div>
