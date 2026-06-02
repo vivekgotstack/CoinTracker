@@ -1,16 +1,12 @@
 import { useMemo, type ReactNode } from 'react'
 import {
-  Bar,
-  BarChart,
   Cell,
   Pie,
   PieChart,
   ResponsiveContainer,
   Tooltip,
-  XAxis,
 } from 'recharts'
 import {
-  Activity,
   ArrowDownRight,
   ArrowUpRight,
   Gauge,
@@ -21,11 +17,15 @@ import {
   Wallet,
 } from 'lucide-react'
 import { useCategories } from '@/hooks/UseCategories'
+import { useAuth } from '@/hooks/UseAuth'
 import { useDashboard } from '@/hooks/UseDashboard'
 import { useTransactions } from '@/hooks/UseTransactions'
-import { formatCurrency, formatDate } from '@/lib/format'
+import { formatCurrency } from '@/lib/format'
 import { renderEntityIcon } from '@/lib/icons'
+import { getPreferredDisplayName } from '@/lib/user-display'
 import { useUserPreferences } from '@/contexts/UserPreferencesContext'
+import SavingsBadge from '@/components/stats/SavingsBadge'
+import StatsHeroEffects from '@/components/stats/StatsHeroEffects'
 import type { Transaction } from '@/types/transaction'
 
 const COLORS = {
@@ -40,14 +40,14 @@ const sum = (transactions: Transaction[]) =>
 
 const average = (transactions: Transaction[]) => (transactions.length ? sum(transactions) / transactions.length : 0)
 
-const compactDate = (date: string) => formatDate(date).replace(' 202', '')
-
 const AnalyticsPage = () => {
   const dashboard = useDashboard()
   const transactions = useTransactions({ page: 0, size: 100, sort: 'date,desc' })
   const categories = useCategories()
   const { preferences } = useUserPreferences()
+  const { user } = useAuth()
   const money = (value: number) => (preferences.hideAmounts ? 'Hidden' : formatCurrency(value))
+  const displayName = getPreferredDisplayName(preferences.displayName, user?.email)
 
   const categoryNameById = useMemo(
     () => new Map((categories.data ?? []).map((category) => [category.id, category.name])),
@@ -89,34 +89,8 @@ const AnalyticsPage = () => {
       .sort((a, b) => b.value - a.value)
       .slice(0, 5)
 
-    const dailyFlow = Array.from(
-      allTransactions
-        .slice(0, 30)
-        .reduce<Map<string, { date: string; income: number; expense: number; net: number }>>((map, transaction) => {
-          const current = map.get(transaction.date) ?? {
-            date: transaction.date,
-            income: 0,
-            expense: 0,
-            net: 0,
-          }
-          const amount = Number(transaction.amount)
-
-          if (transaction.type === 'INCOME') {
-            current.income += amount
-            current.net += amount
-          } else {
-            current.expense += amount
-            current.net -= amount
-          }
-
-          map.set(transaction.date, current)
-          return map
-        }, new Map())
-        .values()
-    )
-      .sort((a, b) => a.date.localeCompare(b.date))
-      .slice(-10)
-      .map((item) => ({ ...item, label: compactDate(item.date) }))
+    const topExpense = topExpenseCategories[0]
+    const spendingFocusPercent = topExpense && expenseTotal > 0 ? (topExpense.value / expenseTotal) * 100 : 0
 
     return {
       incomes,
@@ -130,7 +104,8 @@ const AnalyticsPage = () => {
       largestExpense,
       largestIncome,
       topExpenseCategories,
-      dailyFlow,
+      topExpense,
+      spendingFocusPercent,
       split: [
         { name: 'Income', value: incomeTotal },
         { name: 'Expense', value: expenseTotal },
@@ -159,15 +134,11 @@ const AnalyticsPage = () => {
   return (
     <div className="space-y-8 sm:space-y-10">
       <section className="stats-hero relative overflow-hidden rounded-3xl bg-(--hero) p-5 shadow-sm sm:p-7">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-          {[0, 1, 2, 3, 4, 5].map((item) => (
-            <span key={item} className={`cash-coin cash-coin-${item}`} />
-          ))}
-        </div>
+        <StatsHeroEffects isBehind={stats.netFlow < 0} />
 
         <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem] xl:items-end">
           <div>
-            <p className="text-sm font-semibold text-(--primary)">Stats</p>
+            <SavingsBadge displayName={displayName} savingsRate={stats.savingsRate} />
             <h1 className="brand-font mt-2 text-3xl font-bold text-(--foreground) sm:text-4xl">
               Money Patterns
             </h1>
@@ -176,22 +147,22 @@ const AnalyticsPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase text-(--muted)">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:gap-4">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-4 sm:p-5">
+              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs">
                 <Target size={15} />
                 Savings Rate
               </div>
-              <p className="mt-3 text-2xl font-bold text-(--foreground)">
+              <p className="mt-2 break-words text-2xl font-bold leading-tight text-(--foreground)">
                 {preferences.hideAmounts ? 'Hidden' : `${stats.savingsRate.toFixed(1)}%`}
               </p>
             </div>
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase text-(--muted)">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-4 sm:p-5">
+              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs">
                 <Gauge size={15} />
                 Net Flow
               </div>
-              <p className={`mt-3 text-2xl font-bold ${stats.netFlow >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
+              <p className={`mt-2 break-words text-2xl font-bold leading-tight ${stats.netFlow >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
                 {money(stats.netFlow)}
               </p>
             </div>
@@ -230,26 +201,41 @@ const AnalyticsPage = () => {
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)]">
+      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(320px,0.82fr)_minmax(0,1.18fr)]">
         <Panel
-          icon={<Activity size={19} />}
-          title="Cashflow Rhythm"
-          subtitle="Income and expense movement across recent transaction days"
+          icon={<Wallet size={19} />}
+          title="Spending Focus"
+          subtitle="Your biggest expense area from recent transactions"
         >
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={stats.dailyFlow}>
-                <XAxis dataKey="label" tickLine={false} axisLine={false} />
-                <Tooltip
-                  formatter={(value, name) => [
-                    preferences.hideAmounts ? 'Hidden' : formatCurrency(Number(value)),
-                    name === 'income' ? 'Income' : name === 'expense' ? 'Expense' : 'Net',
-                  ]}
-                />
-                <Bar dataKey="income" fill={COLORS.income} radius={[8, 8, 0, 0]} />
-                <Bar dataKey="expense" fill={COLORS.expense} radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="rounded-2xl bg-(--surface-muted) p-5">
+            <p className="text-sm text-(--muted)">Top expense category</p>
+            <p className="mt-2 truncate text-3xl font-bold text-(--foreground)">
+              {stats.topExpense?.name ?? 'No expenses yet'}
+            </p>
+            <p className="mt-2 text-sm text-(--muted)">
+              {stats.topExpense
+                ? preferences.hideAmounts
+                  ? 'Hidden'
+                  : `${stats.spendingFocusPercent.toFixed(1)}% of total expenses`
+                : 'Add expenses to see your spending focus.'}
+            </p>
+            <div className="mt-5 h-3 overflow-hidden rounded-full bg-(--surface)">
+              <div
+                className="h-full rounded-full bg-rose-600"
+                style={{ width: `${Math.min(100, stats.spendingFocusPercent)}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-xl border border-(--border) p-3">
+              <p className="text-xs text-(--muted)">Income entries</p>
+              <p className="mt-1 text-xl font-bold text-(--foreground)">{stats.incomes.length}</p>
+            </div>
+            <div className="rounded-xl border border-(--border) p-3">
+              <p className="text-xs text-(--muted)">Expense entries</p>
+              <p className="mt-1 text-xl font-bold text-(--foreground)">{stats.expenses.length}</p>
+            </div>
           </div>
         </Panel>
 
@@ -311,8 +297,8 @@ const AnalyticsPage = () => {
 
         <Panel
           icon={<ReceiptText size={19} />}
-          title="Recent Signals"
-          subtitle="Newest records with category context"
+          title="Recent Transactions"
+          subtitle="Newest transactions with category context"
         >
           <div className="grid gap-3 sm:grid-cols-2">
             {allTransactions.slice(0, 6).map((transaction) => {
