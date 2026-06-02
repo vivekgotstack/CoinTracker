@@ -1,5 +1,5 @@
-const CACHE_NAME = 'cointracker-shell-v1'
-const APP_SHELL = ['/', '/index.html', '/manifest.webmanifest', '/pwa-icon.svg', '/favicon.svg']
+const CACHE_NAME = 'cointracker-shell-v2'
+const APP_SHELL = ['/manifest.webmanifest', '/pwa-icon.svg', '/favicon.svg']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -25,9 +25,20 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
+  if (url.pathname.startsWith('/assets/')) {
+    return
+  }
+
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() => caches.match('/index.html'))
+      fetch(request).catch(() =>
+        caches.match('/index.html').then((cached) =>
+          cached || new Response('CoinTracker is offline. Please reconnect and refresh.', {
+            status: 503,
+            headers: { 'Content-Type': 'text/plain' },
+          })
+        )
+      )
     )
     return
   }
@@ -35,6 +46,7 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(request).then((cached) =>
       cached || fetch(request).then((response) => {
+        if (!response.ok) return response
         const copy = response.clone()
         caches.open(CACHE_NAME).then((cache) => cache.put(request, copy))
         return response

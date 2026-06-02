@@ -153,7 +153,7 @@ const AnalyticsPage = () => {
                 <Target size={15} />
                 Savings Rate
               </div>
-              <p className="mt-2 break-words text-2xl font-bold leading-tight text-(--foreground)">
+              <p className="mt-2 wrap-break-word text-2xl font-bold leading-tight text-(--foreground)">
                 {preferences.hideAmounts ? 'Hidden' : `${stats.savingsRate.toFixed(1)}%`}
               </p>
             </div>
@@ -162,7 +162,7 @@ const AnalyticsPage = () => {
                 <Gauge size={15} />
                 Net Flow
               </div>
-              <p className={`mt-2 break-words text-2xl font-bold leading-tight ${stats.netFlow >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
+              <p className={`mt-2 wrap-break-word text-2xl font-bold leading-tight ${stats.netFlow >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
                 {money(stats.netFlow)}
               </p>
             </div>

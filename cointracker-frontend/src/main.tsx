@@ -6,6 +6,9 @@ import './index.css'
 
 import { router } from './app/router'
 import AppProviders from './app/AppProviders'
+import { registerChunkRecovery } from './lib/chunk-recovery'
+
+registerChunkRecovery()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <AppProviders>
