@@ -40,6 +40,7 @@
   animation-delay: 40ms;
   --cash-x: 22px;
   --cash-r: 16deg;
+  --cash-y: 270px;
 }
 
 .cash-note-1 {
@@ -48,6 +49,7 @@
   animation-delay: 220ms;
   --cash-x: -14px;
   --cash-r: -20deg;
+  --cash-y: 238px;
 }
 
 .cash-note-2 {
@@ -55,6 +57,7 @@
   animation-delay: 120ms;
   --cash-x: 34px;
   --cash-r: 28deg;
+  --cash-y: 306px;
 }
 
 .cash-note-3 {
@@ -63,6 +66,7 @@
   animation-delay: 360ms;
   --cash-x: -24px;
   --cash-r: -12deg;
+  --cash-y: 252px;
 }
 
 .cash-note-4 {
@@ -70,6 +74,7 @@
   animation-delay: 20ms;
   --cash-x: 12px;
   --cash-r: 22deg;
+  --cash-y: 292px;
 }
 
 .cash-note-5 {
@@ -78,6 +83,7 @@
   animation-delay: 280ms;
   --cash-x: -38px;
   --cash-r: -30deg;
+  --cash-y: 222px;
 }
 
 .cash-note-6 {
@@ -85,6 +91,7 @@
   animation-delay: 150ms;
   --cash-x: 28px;
   --cash-r: 14deg;
+  --cash-y: 318px;
 }
 
 .cash-note-7 {
@@ -93,6 +100,7 @@
   animation-delay: 430ms;
   --cash-x: -18px;
   --cash-r: -24deg;
+  --cash-y: 266px;
 }
 
 .cash-note-8 {
@@ -100,6 +108,7 @@
   animation-delay: 80ms;
   --cash-x: -42px;
   --cash-r: 20deg;
+  --cash-y: 236px;
 }
 
 .cash-note-9 {
@@ -108,6 +117,7 @@
   animation-delay: 520ms;
   --cash-x: -58px;
   --cash-r: -18deg;
+  --cash-y: 304px;
 }
 
 .cash-note-10 {
@@ -116,6 +126,7 @@
   animation-delay: 640ms;
   --cash-x: 50px;
   --cash-r: 34deg;
+  --cash-y: 248px;
 }
 
 .electric-spark {
@@ -223,6 +234,24 @@
   opacity: 0.74;
 }
 
+.savings-badge-compact {
+  padding: 5px 11px 5px 6px;
+}
+
+.savings-badge-compact .savings-badge-icon {
+  width: 26px;
+  height: 26px;
+}
+
+.savings-badge-compact .savings-badge-name {
+  max-width: 9rem;
+  font-size: 0.82rem;
+}
+
+.savings-badge-compact .savings-badge-label {
+  font-size: 0.58rem;
+}
+
 .savings-badge-silver {
   border-color: rgba(203, 213, 225, 0.74);
   background:
@@ -252,12 +281,16 @@
   12% {
     opacity: 0.95;
   }
-  78% {
-    opacity: 0.88;
+  54% {
+    opacity: 0.78;
+  }
+  82% {
+    opacity: 0;
+    transform: translate3d(calc(var(--cash-x) * 0.82), calc(var(--cash-y) * 0.82), 0) rotate(calc(var(--cash-r) * 0.82)) scale(0.98);
   }
   100% {
     opacity: 0;
-    transform: translate3d(var(--cash-x), 310px, 0) rotate(var(--cash-r)) scale(1.02);
+    transform: translate3d(var(--cash-x), var(--cash-y), 0) rotate(var(--cash-r)) scale(0.94);
   }
 }
 

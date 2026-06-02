@@ -17,14 +17,11 @@ import {
   Wallet,
 } from 'lucide-react'
 import { useCategories } from '@/hooks/UseCategories'
-import { useAuth } from '@/hooks/UseAuth'
 import { useDashboard } from '@/hooks/UseDashboard'
 import { useTransactions } from '@/hooks/UseTransactions'
 import { formatCurrency } from '@/lib/format'
 import { renderEntityIcon } from '@/lib/icons'
-import { getPreferredDisplayName } from '@/lib/user-display'
 import { useUserPreferences } from '@/contexts/UserPreferencesContext'
-import SavingsBadge from '@/components/stats/SavingsBadge'
 import StatsHeroEffects from '@/components/stats/StatsHeroEffects'
 import type { Transaction } from '@/types/transaction'
 
@@ -45,9 +42,7 @@ const AnalyticsPage = () => {
   const transactions = useTransactions({ page: 0, size: 100, sort: 'date,desc' })
   const categories = useCategories()
   const { preferences } = useUserPreferences()
-  const { user } = useAuth()
   const money = (value: number) => (preferences.hideAmounts ? 'Hidden' : formatCurrency(value))
-  const displayName = getPreferredDisplayName(preferences.displayName, user?.email)
 
   const categoryNameById = useMemo(
     () => new Map((categories.data ?? []).map((category) => [category.id, category.name])),
@@ -138,7 +133,7 @@ const AnalyticsPage = () => {
 
         <div className="relative grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem] xl:items-end">
           <div>
-            <SavingsBadge displayName={displayName} savingsRate={stats.savingsRate} />
+            <p className="text-sm font-semibold text-(--primary)">Stats</p>
             <h1 className="brand-font mt-2 text-3xl font-bold text-(--foreground) sm:text-4xl">
               Money Patterns
             </h1>

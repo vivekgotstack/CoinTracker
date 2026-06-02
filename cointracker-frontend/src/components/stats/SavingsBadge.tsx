@@ -4,6 +4,7 @@ import './stats-visuals.css'
 type SavingsBadgeProps = {
   displayName: string
   savingsRate: number
+  compact?: boolean
 }
 
 const getBadgeTier = (savingsRate: number) => {
@@ -12,13 +13,13 @@ const getBadgeTier = (savingsRate: number) => {
   return 'standard'
 }
 
-const SavingsBadge = ({ displayName, savingsRate }: SavingsBadgeProps) => {
+const SavingsBadge = ({ displayName, savingsRate, compact = false }: SavingsBadgeProps) => {
   const tier = getBadgeTier(savingsRate)
   const Icon = tier === 'gold' ? Crown : tier === 'silver' ? Shield : UserRound
   const label = tier === 'gold' ? 'Gold Saver' : tier === 'silver' ? 'Silver Saver' : 'Getting Started'
 
   return (
-    <div className={`savings-badge savings-badge-${tier}`}>
+    <div className={`savings-badge savings-badge-${tier} ${compact ? 'savings-badge-compact' : ''}`}>
       <span className="savings-badge-icon">
         <Icon size={18} />
       </span>

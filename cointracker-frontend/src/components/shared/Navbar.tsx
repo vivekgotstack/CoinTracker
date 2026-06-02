@@ -8,6 +8,8 @@ import { useTheme } from '@/contexts/ThemeContext'
 import type { AuthUser } from '@/types/auth'
 import { useUserPreferences } from '@/contexts/UserPreferencesContext'
 import BrandMark from '@/components/shared/BrandMark'
+import SavingsBadge from '@/components/stats/SavingsBadge'
+import { useDashboard } from '@/hooks/UseDashboard'
 import { getPreferredDisplayName } from '@/lib/user-display'
 import { consumeFirstLogin } from '@/lib/activation'
 
@@ -20,8 +22,12 @@ const Navbar = ({ user }: NavbarProps) => {
   const { isDark, toggleTheme } = useTheme()
   const { preferences } = useUserPreferences()
   const queryClient = useQueryClient()
+  const dashboard = useDashboard()
   const screens = Grid.useBreakpoint()
   const displayName = getPreferredDisplayName(preferences.displayName, user?.email)
+  const totalIncome = Number(dashboard.data?.totalIncome ?? 0)
+  const totalExpense = Number(dashboard.data?.totalExpense ?? 0)
+  const savingsRate = totalIncome > 0 ? Math.max(0, ((totalIncome - totalExpense) / totalIncome) * 100) : 0
   const hasCustomName = preferences.displayName.trim().length > 0
   const isFirstLogin = useMemo(() => consumeFirstLogin(user?.email), [user?.email])
   const showFullLogout = screens.xxl === true
@@ -39,7 +45,7 @@ const Navbar = ({ user }: NavbarProps) => {
         <div className="flex min-w-0 items-center gap-3">
           <BrandMark compact className="hidden sm:flex lg:hidden" />
 
-          <div className="min-w-0 max-w-[42vw] rounded-3xl bg-(--hero) px-3 py-3 shadow-sm sm:max-w-none sm:min-w-64 sm:px-5 xl:min-w-80">
+          <div className="min-w-0 max-w-[48vw] rounded-3xl bg-(--hero) px-3 py-3 shadow-sm sm:max-w-none sm:min-w-72 sm:px-5 xl:min-w-88">
             <p className="text-xs font-semibold uppercase tracking-wide text-(--primary)">
               {isFirstLogin || !hasCustomName ? 'Welcome to CoinTracker' : 'Welcome back'}
             </p>
@@ -47,6 +53,9 @@ const Navbar = ({ user }: NavbarProps) => {
               <h2 className="brand-font truncate text-xl font-bold text-(--foreground) sm:text-2xl">
                 {displayName}
               </h2>
+              <div className="mt-3">
+                <SavingsBadge compact displayName={displayName} savingsRate={savingsRate} />
+              </div>
             </div>
           </div>
         </div>
