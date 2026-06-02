@@ -143,8 +143,8 @@ const AnalyticsPage = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:gap-4">
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5 sm:p-6">
-              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)]">
+              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs p-5">
                 <Target size={15} />
                 Savings Rate
               </div>
@@ -152,8 +152,8 @@ const AnalyticsPage = () => {
                 {preferences.hideAmounts ? 'Hidden' : `${stats.savingsRate.toFixed(1)}%`}
               </p>
             </div>
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5 sm:p-6">
-              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] py-10">
+              <div className="flex items-center gap-2 text-[11px] font-semibold uppercase text-(--muted) sm:text-xs p-5">
                 <Gauge size={15} />
                 Net Flow
               </div>
@@ -165,7 +165,7 @@ const AnalyticsPage = () => {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4 py-10">
+      <section className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4">
         <MetricCard
           icon={<ArrowUpRight size={18} />}
           label="Avg income entry"
@@ -196,7 +196,7 @@ const AnalyticsPage = () => {
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(320px,0.82fr)_minmax(0,1.18fr)]">
+      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(320px,0.82fr)_minmax(0,1.18fr)] py-10">
         <Panel
           icon={<Wallet size={19} />}
           title="Spending Focus"
@@ -254,7 +254,7 @@ const AnalyticsPage = () => {
         </Panel>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(320px,0.75fr)_minmax(0,1.25fr)] py-10">
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(320px,0.75fr)_minmax(0,1.25fr)]">
         <Panel
           icon={<Wallet size={19} />}
           title="Expense Concentration"
