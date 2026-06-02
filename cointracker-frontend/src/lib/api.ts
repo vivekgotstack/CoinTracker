@@ -5,6 +5,7 @@ import {
   saveSession,
   clearSession,
 } from './auth-storage'
+import { queryClient } from './query-client'
 
 import type { AuthSession } from '@/types/auth'
 
@@ -67,6 +68,7 @@ api.interceptors.response.use(
       const refreshToken = getRefreshToken()
       if (!refreshToken) {
         clearSession()
+        queryClient.removeQueries()
         window.location.href = '/login'
         return Promise.reject(error)
       }
@@ -89,6 +91,7 @@ api.interceptors.response.use(
     } catch (err) {
       processQueue(err)
       clearSession()
+      queryClient.removeQueries()
       window.location.href = '/login'
       return Promise.reject(err)
 

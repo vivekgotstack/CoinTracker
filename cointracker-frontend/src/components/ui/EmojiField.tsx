@@ -36,7 +36,7 @@ const EmojiField = ({ value, onChange, fallback = '✨' }: EmojiFieldProps) => {
         />
       }
     >
-      <Button className="h-11 w-full justify-start border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_72%,transparent)]" icon={<SmilePlus size={16} />}>
+      <Button className="h-11 w-full justify-start border-(--border) bg-[color-mix(in_srgb,var(--surface)_72%,transparent)]" icon={<SmilePlus size={16} />}>
         <span className="text-lg">{icon}</span>
         <span className="ml-2 text-sm">Choose icon</span>
       </Button>

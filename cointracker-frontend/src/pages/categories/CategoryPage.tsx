@@ -176,11 +176,11 @@ const CategoryPage = () => {
       </section>
 
       <section className="glass-panel rounded-2xl p-4 sm:p-7">
-        {(categories.data?.length ?? 0) > 0 ? (
+        {categories.isLoading || (categories.data?.length ?? 0) > 0 ? (
           <Table<Category>
             rowKey="id"
             columns={columns}
-            dataSource={categories.data}
+            dataSource={categories.data ?? []}
             loading={categories.isLoading}
             size={compactTable ? 'small' : 'middle'}
             scroll={compactTable ? undefined : { x: 720 }}

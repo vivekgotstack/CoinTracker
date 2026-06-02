@@ -63,6 +63,11 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
       })),
     [categories.data]
   )
+  const categoryNameById = useMemo(
+    () => new Map((categories.data ?? []).map((category) => [category.id, category.name])),
+    [categories.data]
+  )
+  const getCategoryName = (categoryId: number) => categoryNameById.get(categoryId) ?? `Category #${categoryId}`
 
   const openCreate = () => {
     setEditing(null)
@@ -153,7 +158,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
               <div className="min-w-0">
                 <p className="truncate font-medium text-(--foreground)">{transaction.name}</p>
                 <p className="truncate text-xs text-(--muted)">
-                  {formatDate(transaction.date)} - Category #{transaction.categoryId}
+                  {formatDate(transaction.date)} - {getCategoryName(transaction.categoryId)}
                 </p>
               </div>
             </div>
@@ -185,7 +190,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
               </span>
               <div>
                 <p className="font-medium text-(--foreground)">{transaction.name}</p>
-                <p className="text-sm text-(--muted)">Category #{transaction.categoryId}</p>
+                <p className="text-sm text-(--muted)">{getCategoryName(transaction.categoryId)}</p>
               </div>
             </div>
           ),

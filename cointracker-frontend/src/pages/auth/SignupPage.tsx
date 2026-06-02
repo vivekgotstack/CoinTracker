@@ -6,18 +6,14 @@ import { getApiErrorMessage } from '@/lib/errors'
 import type { RegisterRequest } from '@/types/auth'
 import BrandMark from '@/components/shared/BrandMark'
 import { isPendingActivationEmail, markPendingActivation } from '@/lib/activation'
-import { useUserPreferences } from '@/contexts/UserPreferencesContext'
-import { DISPLAY_NAME_MAX_LENGTH } from '@/lib/user-display'
 
 const SignupPage = () => {
   const navigate = useNavigate()
   const register = useRegister()
-  const { updatePreferences } = useUserPreferences()
 
   const handleSignup = async (values: RegisterRequest) => {
     try {
       const response = await register.mutateAsync(values)
-      updatePreferences({ displayName: values.fullName.trim().slice(0, DISPLAY_NAME_MAX_LENGTH) })
       markPendingActivation(values.email)
       message.success(response.message ?? 'Account created. Please activate your account.')
       navigate('/login')

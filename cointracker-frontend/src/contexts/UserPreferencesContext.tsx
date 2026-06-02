@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { AUTH_SESSION_CHANGED_EVENT, getSession } from '@/lib/auth-storage'
 
 type DigestFrequency = 'daily' | 'weekly' | 'monthly'
 
@@ -32,35 +33,55 @@ const defaultPreferences: UserPreferences = {
 
 const UserPreferencesContext = createContext<UserPreferencesContextValue | null>(null)
 
-const getInitialPreferences = (): UserPreferences => {
-  const stored = localStorage.getItem(PREFERENCES_KEY)
+const getPreferenceOwnerKey = () => {
+  const user = getSession()?.user
+  return user?.id ? `user:${user.id}` : 'guest'
+}
+
+const getStorageKey = (ownerKey: string) => `${PREFERENCES_KEY}:${ownerKey}`
+
+const getInitialPreferences = (ownerKey = getPreferenceOwnerKey()): UserPreferences => {
+  const storageKey = getStorageKey(ownerKey)
+  const stored = localStorage.getItem(storageKey)
   if (!stored) return defaultPreferences
 
   try {
     return { ...defaultPreferences, ...JSON.parse(stored) }
   } catch {
-    localStorage.removeItem(PREFERENCES_KEY)
+    localStorage.removeItem(storageKey)
     return defaultPreferences
   }
 }
 
 export const UserPreferencesProvider = ({ children }: { children: ReactNode }) => {
-  const [preferences, setPreferences] = useState<UserPreferences>(getInitialPreferences)
+  const [ownerKey, setOwnerKey] = useState(getPreferenceOwnerKey)
+  const [preferences, setPreferences] = useState<UserPreferences>(() => getInitialPreferences(ownerKey))
 
-  const updatePreferences = (nextPreferences: Partial<UserPreferences>) => {
+  useEffect(() => {
+    const syncPreferencesToSession = () => {
+      const nextOwnerKey = getPreferenceOwnerKey()
+      setOwnerKey(nextOwnerKey)
+      setPreferences(getInitialPreferences(nextOwnerKey))
+    }
+
+    window.addEventListener(AUTH_SESSION_CHANGED_EVENT, syncPreferencesToSession)
+    return () => window.removeEventListener(AUTH_SESSION_CHANGED_EVENT, syncPreferencesToSession)
+  }, [])
+
+  const updatePreferences = useCallback((nextPreferences: Partial<UserPreferences>) => {
     setPreferences((current) => {
       const updated = { ...current, ...nextPreferences }
-      localStorage.setItem(PREFERENCES_KEY, JSON.stringify(updated))
+      localStorage.setItem(getStorageKey(ownerKey), JSON.stringify(updated))
       return updated
     })
-  }
+  }, [ownerKey])
 
   const value = useMemo(
     () => ({
       preferences,
       updatePreferences,
     }),
-    [preferences]
+    [preferences, updatePreferences]
   )
 
   return (

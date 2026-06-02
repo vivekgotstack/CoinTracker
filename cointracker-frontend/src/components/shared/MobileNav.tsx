@@ -12,7 +12,7 @@ const items = [
 
 const MobileNav = () => {
   return (
-    <nav className="fixed inset-x-3 bottom-3 z-30 grid max-w-[calc(100vw-24px)] grid-cols-5 rounded-2xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] p-2 shadow-2xl backdrop-blur-xl lg:hidden">
+    <nav className="fixed inset-x-3 bottom-3 z-30 grid max-w-[calc(100vw-24px)] grid-cols-5 rounded-2xl border border-(--border) bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] p-2 shadow-2xl backdrop-blur-xl lg:hidden">
       {items.map((item) => {
         const Icon = item.icon
 
@@ -25,8 +25,8 @@ const MobileNav = () => {
               cn(
                 'flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-[11px] font-semibold transition',
                 isActive
-                  ? 'bg-[var(--primary)] text-white'
-                  : 'text-[var(--muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--foreground)]'
+                  ? 'bg-(--primary) text-white'
+                  : 'text-(--muted) hover:bg-(--surface-muted) hover:text-(--foreground)'
               )
             }
           >

@@ -12,7 +12,7 @@ const COLORS = ['#059669', '#e11d48']
 
 const AnalyticsPage = () => {
   const dashboard = useDashboard()
-  const transactions = useTransactions({ page: 0, size: 100, sort: 'date,asc' })
+  const transactions = useTransactions({ page: 0, size: 100, sort: 'date,desc' })
   const { preferences } = useUserPreferences()
   const money = (value: number) => (preferences.hideAmounts ? 'Hidden' : formatCurrency(value))
 
@@ -27,7 +27,8 @@ const AnalyticsPage = () => {
   const allTransactions = transactions.data?.content ?? []
   const expenseTrend = allTransactions
     .filter((transaction) => transaction.type === 'EXPENSE')
-    .slice(-12)
+    .slice(0, 12)
+    .reverse()
     .map((transaction) => ({
       label: formatDate(transaction.date).replace(' 202', ''),
       amount: Number(transaction.amount),
@@ -86,7 +87,7 @@ const AnalyticsPage = () => {
       </section>
 
       <RecentTransactions
-        data={allTransactions.slice(-8).reverse()}
+        data={allTransactions.slice(0, 8)}
         title="Latest Transactions"
         subtitle="Your newest money moves"
       />

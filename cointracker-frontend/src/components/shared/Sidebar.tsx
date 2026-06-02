@@ -23,8 +23,8 @@ const items = [
 
 const Sidebar = () => {
   return (
-    <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-[var(--border)] bg-[var(--surface)] lg:block">
-      <div className="border-b border-[var(--border)] p-6">
+    <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-(--border) bg-(--surface) lg:block">
+      <div className="border-b border-(--border) p-6">
         <BrandMark />
       </div>
 
@@ -41,8 +41,8 @@ const Sidebar = () => {
                 cn(
                   'flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition',
                   isActive
-                    ? 'bg-[var(--primary)] text-white shadow-sm'
-                    : 'text-[var(--muted)] hover:bg-[var(--surface-muted)] hover:text-[var(--foreground)]'
+                    ? 'bg-(--primary) text-white shadow-sm'
+                    : 'text-(--muted) hover:bg-(--surface-muted) hover:text-(--foreground)'
                 )
               }
             >

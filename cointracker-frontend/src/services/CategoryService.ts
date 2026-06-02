@@ -3,9 +3,10 @@ import type { Category, CategoryRequest, CategoryType } from '@/types/category'
 
 const CATEGORIES_ENDPOINT = '/api/categories'
 
-export const getCategories = async (type?: CategoryType): Promise<Category[]> => {
+export const getCategories = async (type?: CategoryType, signal?: AbortSignal): Promise<Category[]> => {
   const response = await api.get<Category[]>(CATEGORIES_ENDPOINT, {
     params: { type },
+    signal,
   })
 
   return response.data

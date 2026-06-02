@@ -5,7 +5,7 @@ export const useDashboard = () => {
   return useQuery({
     queryKey: ['dashboard'],
 
-    queryFn: getDashboard,
+    queryFn: ({ signal }) => getDashboard(signal),
 
     staleTime: 1000 * 60 * 3,
 

@@ -19,9 +19,11 @@ const RecentTransactions = ({
   const [page, setPage] = useState(1)
   const { preferences } = useUserPreferences()
   const pageSize = 5
+  const maxPage = Math.max(1, Math.ceil(data.length / pageSize))
+  const currentPage = Math.min(page, maxPage)
   const paginatedData = useMemo(
-    () => data.slice((page - 1) * pageSize, page * pageSize),
-    [data, page]
+    () => data.slice((currentPage - 1) * pageSize, currentPage * pageSize),
+    [currentPage, data]
   )
 
   return (
@@ -43,7 +45,7 @@ const RecentTransactions = ({
               >
                 <div className="flex min-w-0 items-center gap-3">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-(--surface) text-xl shadow-sm">
-                    {renderEntityIcon(transaction.icon, isIncome ? '💸' : '🧾')}
+                    {renderEntityIcon(transaction.icon, isIncome ? '\u{1F4B8}' : '\u{1F9FE}')}
                   </span>
                   <div className="min-w-0">
                     <p className="truncate font-medium text-(--foreground)">{transaction.name}</p>
@@ -68,7 +70,7 @@ const RecentTransactions = ({
         <div className="mt-4 flex justify-end">
           <Pagination
             size="small"
-            current={page}
+            current={currentPage}
             total={data.length}
             pageSize={pageSize}
             onChange={setPage}
@@ -80,3 +82,4 @@ const RecentTransactions = ({
 }
 
 export default RecentTransactions
+

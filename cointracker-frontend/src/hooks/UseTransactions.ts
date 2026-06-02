@@ -19,7 +19,7 @@ export const useTransactions = (filters: TransactionFilters) => {
   return useQuery({
     queryKey: ['transactions', normalizedFilters],
 
-    queryFn: () => getTransactions(normalizedFilters),
+    queryFn: ({ signal }) => getTransactions(normalizedFilters, signal),
 
     staleTime: 1000 * 60 * 5,
 

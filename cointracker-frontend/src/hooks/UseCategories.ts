@@ -15,7 +15,7 @@ export const categoryKeys = {
 export const useCategories = (type?: CategoryType) => {
   return useQuery({
     queryKey: categoryKeys.list(type),
-    queryFn: () => getCategories(type),
+    queryFn: ({ signal }) => getCategories(type, signal),
   })
 }
 
