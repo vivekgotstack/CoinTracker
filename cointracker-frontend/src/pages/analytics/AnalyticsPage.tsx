@@ -176,8 +176,8 @@ const AnalyticsPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-4">
+          <div className="grid grid-cols-2 gap-5">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase text-(--muted)">
                 <Target size={15} />
                 Savings Rate
@@ -186,7 +186,7 @@ const AnalyticsPage = () => {
                 {preferences.hideAmounts ? 'Hidden' : `${stats.savingsRate.toFixed(1)}%`}
               </p>
             </div>
-            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-4">
+            <div className="rounded-2xl bg-[color-mix(in_srgb,var(--surface)_76%,transparent)] p-5">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase text-(--muted)">
                 <Gauge size={15} />
                 Net Flow
@@ -199,7 +199,7 @@ const AnalyticsPage = () => {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4 py-10">
         <MetricCard
           icon={<ArrowUpRight size={18} />}
           label="Avg income entry"
@@ -230,7 +230,7 @@ const AnalyticsPage = () => {
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)]">
+      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)]">
         <Panel
           icon={<Activity size={19} />}
           title="Cashflow Rhythm"
@@ -273,7 +273,7 @@ const AnalyticsPage = () => {
         </Panel>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(320px,0.75fr)_minmax(0,1.25fr)]">
+      <section className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(320px,0.75fr)_minmax(0,1.25fr)] py-10">
         <Panel
           icon={<Wallet size={19} />}
           title="Expense Concentration"
