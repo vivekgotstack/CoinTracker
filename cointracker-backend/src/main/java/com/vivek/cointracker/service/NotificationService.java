@@ -23,6 +23,9 @@ public class NotificationService {
     @Value("${app.base-url}")
     private String backendUrl;
 
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
+
     @Async
     public void sendAccountActivationEmail(
             ProfileEntity user,
@@ -32,21 +35,13 @@ public class NotificationService {
 
             String activationLink = backendUrl + "/activate?token=" + activationToken;
 
-            String body = """
-                    <h2>Activate Your Account</h2>
-
-                    <p>
-                        Welcome to CoinTracker.
-                    </p>
-
-                    <p>
-                        Click below to activate your account:
-                    </p>
-
-                    <a href="%s">
-                        Activate Account
-                    </a>
-                    """.formatted(activationLink);
+            String body = authEmail(
+                    "Activate your account",
+                    "Welcome to CoinTracker, " + user.getFullName() + ".",
+                    "Confirm your email so your account is ready for secure money tracking.",
+                    "Activate account",
+                    activationLink,
+                    "This activation link expires in 15 minutes.");
 
             emailService.sendEmail(
                     user.getEmail(),
@@ -69,19 +64,15 @@ public class NotificationService {
 
         try {
 
-            String resetLink = backendUrl + "/reset-password?token=" + resetToken;
+            String resetLink = frontendUrl + "/reset-password?token=" + resetToken;
 
-            String body = """
-                    <h2>Reset Your Password</h2>
-
-                    <p>
-                        Click below to reset your password:
-                    </p>
-
-                    <a href="%s">
-                        Reset Password
-                    </a>
-                    """.formatted(resetLink);
+            String body = authEmail(
+                    "Reset your password",
+                    "Hi " + user.getFullName() + ",",
+                    "Use the secure link below to choose a fresh password for your CoinTracker account.",
+                    "Reset password",
+                    resetLink,
+                    "This reset link expires in 10 minutes. Ignore this email if you did not request it.");
 
             emailService.sendEmail(
                     user.getEmail(),
@@ -514,5 +505,140 @@ public class NotificationService {
                     user.getEmail(),
                     e);
         }
+    }
+
+    private String authEmail(
+            String title,
+            String greeting,
+            String message,
+            String buttonText,
+            String link,
+            String note) {
+
+        return """
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                </head>
+
+                <body style="
+                        margin:0;
+                        padding:0;
+                        background-color:#f4f7fb;
+                        font-family:Arial,sans-serif;
+                        color:#1f2937;
+                ">
+                    <table width="100%%" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td align="center" style="padding:40px 16px;">
+                                <table width="600" cellpadding="0" cellspacing="0"
+                                    style="
+                                        background:#ffffff;
+                                        border-radius:12px;
+                                        overflow:hidden;
+                                        box-shadow:0 4px 20px rgba(0,0,0,0.08);
+                                    ">
+                                    <tr>
+                                        <td style="
+                                                background:#1BA61B;
+                                                padding:24px;
+                                                text-align:center;
+                                        ">
+                                            <div style="
+                                                    display:inline-block;
+                                                    width:54px;
+                                                    height:54px;
+                                                    line-height:54px;
+                                                    border-radius:14px;
+                                                    background:#ffffff;
+                                                    color:#1BA61B;
+                                                    font-size:22px;
+                                                    font-weight:bold;
+                                                    margin-bottom:12px;
+                                            ">
+                                                CT
+                                            </div>
+                                            <h1 style="
+                                                    margin:0;
+                                                    color:#ffffff;
+                                                    font-size:28px;
+                                            ">
+                                                CoinTracker
+                                            </h1>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="padding:40px 32px;">
+                                            <h2 style="
+                                                    margin-top:0;
+                                                    color:#111827;
+                                                    font-size:24px;
+                                            ">
+                                                %s
+                                            </h2>
+
+                                            <p style="
+                                                    font-size:16px;
+                                                    line-height:1.7;
+                                                    color:#4b5563;
+                                            ">
+                                                %s
+                                            </p>
+
+                                            <p style="
+                                                    font-size:16px;
+                                                    line-height:1.7;
+                                                    color:#4b5563;
+                                            ">
+                                                %s
+                                            </p>
+
+                                            <div style="margin:32px 0; text-align:center;">
+                                                <a href="%s"
+                                                    style="
+                                                        background:#1BA61B;
+                                                        color:#ffffff;
+                                                        text-decoration:none;
+                                                        padding:14px 24px;
+                                                        border-radius:8px;
+                                                        display:inline-block;
+                                                        font-weight:bold;
+                                                        font-size:15px;
+                                                ">
+                                                    %s
+                                                </a>
+                                            </div>
+
+                                            <p style="
+                                                    font-size:14px;
+                                                    line-height:1.7;
+                                                    color:#6b7280;
+                                                    text-align:center;
+                                            ">
+                                                %s
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="
+                                                background:#f9fafb;
+                                                padding:20px;
+                                                text-align:center;
+                                                font-size:12px;
+                                                color:#9ca3af;
+                                        ">
+                                            CoinTracker keeps your finances organized.
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+                </html>
+                """.formatted(title, greeting, message, link, buttonText, note);
     }
 }

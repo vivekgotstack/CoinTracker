@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Button, Form, Grid, Input, InputNumber, Modal, Popconfirm, Select, Space, Table, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { Edit3, Plus, Search, Trash2 } from 'lucide-react'
+import { Link } from 'react-router'
+import { Edit3, FolderPlus, Plus, Search, Trash2 } from 'lucide-react'
 import EmojiField from '@/components/ui/EmojiField'
 import { useCategories } from '@/hooks/UseCategories'
 import {
@@ -63,6 +64,7 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
       })),
     [categories.data]
   )
+  const hasNoCategories = !categories.isLoading && categoryOptions.length === 0
   const categoryNameById = useMemo(
     () => new Map((categories.data ?? []).map((category) => [category.id, category.name])),
     [categories.data]
@@ -228,12 +230,38 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
           type="primary"
           icon={<Plus size={16} />}
           onClick={openCreate}
-          disabled={!categoryOptions.length}
           className="mt-2 sm:mt-0"
         >
           Add {type === 'INCOME' ? 'income' : 'expense'}
         </Button>
       </section>
+
+      {hasNoCategories ? (
+        <section className="glass-panel rounded-2xl p-5 sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-teal-100 text-teal-700 dark:bg-teal-950 dark:text-teal-200">
+                <FolderPlus size={22} />
+              </span>
+              <div>
+                <h2 className="brand-font text-xl font-bold text-(--foreground)">
+                  Create a {type.toLowerCase()} category first
+                </h2>
+                <p className="mt-1 text-sm leading-6 text-(--muted)">
+                  Transactions need a category like Salary, Groceries, Rent, or Bills so reports stay organized.
+                </p>
+              </div>
+            </div>
+
+            <Link
+              to="/categories"
+              className="inline-flex items-center justify-center rounded-xl bg-(--primary) px-4 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              Add category
+            </Link>
+          </div>
+        </section>
+      ) : null}
 
       <section className="glass-panel rounded-2xl p-4 sm:p-7">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -276,7 +304,25 @@ const TransactionWorkspace = ({ type }: TransactionWorkspaceProps) => {
         centered
       >
         {!categoryOptions.length ? (
-          <p className="text-sm text-rose-600">Create a {type.toLowerCase()} category before adding transactions.</p>
+          <div className="rounded-2xl border border-(--border) bg-(--surface-muted) p-5">
+            <div className="flex gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-teal-700 dark:bg-(--surface)">
+                <FolderPlus size={20} />
+              </span>
+              <div>
+                <h3 className="font-semibold text-(--foreground)">One quick setup step</h3>
+                <p className="mt-1 text-sm leading-6 text-(--muted)">
+                  Add at least one {type.toLowerCase()} category, then this form will unlock automatically.
+                </p>
+              </div>
+            </div>
+            <Link
+              to="/categories"
+              className="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-(--primary) px-4 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              Create category
+            </Link>
+          </div>
         ) : (
           <Form<TransactionFormValues> form={form} layout="vertical" onFinish={handleSubmit} requiredMark={false}>
             <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Name is required' }]}>
