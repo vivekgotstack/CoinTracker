@@ -41,7 +41,7 @@ const SettingsPage = () => {
         </p>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-3 py-10">
+      <section className="grid grid-cols-1 gap-6 xl:grid-cols-3 py-5">
         <div className="glass-panel rounded-3xl p-5">
           <div className="flex items-start gap-3">
             <Sun className="mt-1 text-(--primary)" size={20} />
@@ -166,7 +166,7 @@ const SettingsPage = () => {
         </div>
       </section>
 
-      <div className='py-10'>
+      <div className='py-5'>
         <section className="glass-panel rounded-3xl p-5">
           <div className="flex items-start gap-3 py-5">
             <ShieldCheck className="mt-1 text-(--primary)" size={20} />
