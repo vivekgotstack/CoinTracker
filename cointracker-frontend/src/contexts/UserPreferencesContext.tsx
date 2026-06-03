@@ -134,7 +134,13 @@ export const UserPreferencesProvider = ({ children }: { children: ReactNode }) =
             return updated
           })
         })
-        .catch(() => undefined)
+        .catch(() => {
+          setPreferences((current) => {
+            const updated = { ...current, ...nextPreferences }
+            savePreferences(ownerKey, updated)
+            return updated
+          })
+        })
       return
     }
 

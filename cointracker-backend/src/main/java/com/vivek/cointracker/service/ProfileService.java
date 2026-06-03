@@ -5,9 +5,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.vivek.cointracker.dto.ProfileResponse;
 import com.vivek.cointracker.dto.ProfilePreferencesRequest;
 import com.vivek.cointracker.dto.ProfilePreferencesResponse;
+import com.vivek.cointracker.dto.ProfileResponse;
 import com.vivek.cointracker.dto.ProfileUpdateRequest;
 import com.vivek.cointracker.entity.ProfileEntity;
 import com.vivek.cointracker.exception.CustomExceptions.BadRequestException;
@@ -50,6 +50,10 @@ public class ProfileService {
         return profileMapper.toResponse(getCurrentProfile());
     }
 
+    public ProfilePreferencesResponse getCurrentPreferences() {
+        return toPreferencesResponse(getCurrentProfile());
+    }
+
     @Transactional
     public ProfileResponse updateCurrentProfile(ProfileUpdateRequest request) {
         ProfileEntity user = getCurrentProfile();
@@ -59,20 +63,13 @@ public class ProfileService {
         return profileMapper.toResponse(user);
     }
 
-    public ProfilePreferencesResponse getCurrentPreferences() {
-        return toPreferencesResponse(getCurrentProfile());
-    }
-
     @Transactional
     public ProfilePreferencesResponse updateCurrentPreferences(ProfilePreferencesRequest request) {
         ProfileEntity user = getCurrentProfile();
-        String digestFrequency = normalizeDigestFrequency(request.getDigestFrequency());
-
         user.updateEmailPreferences(
                 request.getNewsletterSubscribed(),
                 request.getDigestEnabled(),
-                digestFrequency);
-
+                normalizeDigestFrequency(request.getDigestFrequency()));
         return toPreferencesResponse(user);
     }
 
@@ -80,6 +77,13 @@ public class ProfileService {
         ProfileEntity user = profileRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
         return profileMapper.toResponse(user);
+    }
+
+    private String normalizeProfileImageUrl(String profileImageUrl) {
+        if (profileImageUrl == null || profileImageUrl.isBlank()) {
+            return null;
+        }
+        return profileImageUrl.trim();
     }
 
     private ProfilePreferencesResponse toPreferencesResponse(ProfileEntity user) {
@@ -100,12 +104,5 @@ public class ProfileService {
             throw new BadRequestException("Invalid digest frequency");
         }
         return normalized;
-    }
-
-    private String normalizeProfileImageUrl(String profileImageUrl) {
-        if (profileImageUrl == null || profileImageUrl.isBlank()) {
-            return null;
-        }
-        return profileImageUrl.trim();
     }
 }

@@ -47,14 +47,14 @@ public class ProfileController {
                 false));
     }
 
-    @GetMapping("/api/profile/preferences")
-    public ResponseEntity<ProfilePreferencesResponse> getPreferences() {
-        return ResponseEntity.ok(profileService.getCurrentPreferences());
-    }
-
     @GetMapping("/api/profile")
     public ResponseEntity<ProfileResponse> getCurrentProfile() {
         return ResponseEntity.ok(profileService.getCurrentProfileResponse());
+    }
+
+    @GetMapping("/api/profile/preferences")
+    public ResponseEntity<ProfilePreferencesResponse> getPreferences() {
+        return ResponseEntity.ok(profileService.getCurrentPreferences());
     }
 
     @PutMapping("/api/profile")
