@@ -545,8 +545,18 @@ public class NotificationService {
                                                 padding:24px;
                                                 text-align:center;
                                         ">
+                                            <img src="%s" alt="CoinTracker" style="
+                                                    display:block;
+                                                    width:54px;
+                                                    height:54px;
+                                                    border-radius:14px;
+                                                    margin:0 auto 12px;
+                                                    background:#ffffff;
+                                                    padding:4px;
+                                                    box-sizing:border-box;
+                                            " />
                                             <div style="
-                                                    display:inline-block;
+                                                    display:none;
                                                     width:54px;
                                                     height:54px;
                                                     line-height:54px;
@@ -557,7 +567,7 @@ public class NotificationService {
                                                     font-weight:bold;
                                                     margin-bottom:12px;
                                             ">
-                                                CT
+                                                Rs
                                             </div>
                                             <h1 style="
                                                     margin:0;
@@ -639,6 +649,6 @@ public class NotificationService {
                     </table>
                 </body>
                 </html>
-                """.formatted(title, greeting, message, link, buttonText, note);
+                """.formatted(frontendUrl + "/pwa-icon.svg", title, greeting, message, link, buttonText, note);
     }
 }

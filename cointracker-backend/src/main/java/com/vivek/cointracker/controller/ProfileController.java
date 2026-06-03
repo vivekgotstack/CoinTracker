@@ -66,7 +66,7 @@ public class ProfileController {
                     <main style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 14px;box-sizing:border-box;">
                         <section style="width:min(100%%,640px);background:rgba(255,255,255,.92);border:1px solid #cfe7df;border-radius:24px;box-shadow:0 24px 80px rgba(8,16,15,.12);overflow:hidden;">
                             <div style="padding:28px 28px 18px;display:flex;gap:14px;align-items:center;">
-                                <div style="width:54px;height:54px;border-radius:18px;background:#0d9488;color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;box-shadow:0 14px 32px rgba(13,148,136,.24);">CT</div>
+                                <img src="%s" alt="CoinTracker" style="width:54px;height:54px;border-radius:18px;box-shadow:0 14px 32px rgba(13,148,136,.24);" />
                                 <div>
                                     <div style="font-size:28px;font-weight:800;line-height:1;color:#10201d;">CoinTracker</div>
                                     <div style="margin-top:4px;font-size:13px;font-weight:600;color:#667c76;">Money, neatly in motion</div>
@@ -87,6 +87,7 @@ public class ProfileController {
                 </html>
                 """.formatted(
                 title,
+                frontendUrl + "/pwa-icon.svg",
                 soft,
                 accent,
                 status,

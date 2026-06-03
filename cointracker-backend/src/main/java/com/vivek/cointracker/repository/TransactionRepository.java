@@ -49,4 +49,8 @@ public interface TransactionRepository extends
         long countByProfileIdAndDate(
                         Long profileId,
                         LocalDate date);
+
+        long countByCategoryIdAndProfileId(Long categoryId, Long profileId);
+
+        void deleteByCategoryIdAndProfileId(Long categoryId, Long profileId);
 }

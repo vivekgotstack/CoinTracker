@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Button, Form, Grid, Input, Modal, Popconfirm, Select, Space, Table, Tag, message } from 'antd'
+import { Button, Form, Grid, Input, Modal, Select, Space, Table, Tag, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { Edit3, Plus, Tags, Trash2 } from 'lucide-react'
+import { AlertTriangle, Edit3, Plus, Tags, Trash2 } from 'lucide-react'
 import EmptyState from '@/components/shared/EmptyState'
 import EmojiField from '@/components/ui/EmojiField'
 import {
@@ -25,6 +25,7 @@ const CategoryPage = () => {
   const [form] = Form.useForm<CategoryRequest>()
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState<Category | null>(null)
+  const [deleting, setDeleting] = useState<Category | null>(null)
 
   const categories = useCategories()
   const createMutation = useCreateCategory()
@@ -81,9 +82,11 @@ const CategoryPage = () => {
       const apiMessage = getApiErrorMessage(error, 'Unable to delete category')
       message.error(
         apiMessage.toLowerCase().includes('constraint')
-          ? 'This category is linked to transactions. Delete or move those transactions first.'
+          ? 'This category is linked to transactions. Please try again.'
           : apiMessage
       )
+    } finally {
+      setDeleting(null)
     }
   }
 
@@ -92,9 +95,7 @@ const CategoryPage = () => {
   const actionCell = (category: Category) => (
     <Space size={compactTable ? 4 : 8} wrap={false}>
       <Button icon={<Edit3 size={15} />} onClick={() => openEdit(category)} />
-      <Popconfirm title="Delete category?" onConfirm={() => handleDelete(category.id)}>
-        <Button danger icon={<Trash2 size={15} />} />
-      </Popconfirm>
+      <Button danger icon={<Trash2 size={15} />} onClick={() => setDeleting(category)} />
     </Space>
   )
 
@@ -227,6 +228,45 @@ const CategoryPage = () => {
             Save category
           </Button>
         </Form>
+      </Modal>
+
+      <Modal
+        title="Delete category?"
+        open={Boolean(deleting)}
+        onCancel={() => setDeleting(null)}
+        footer={null}
+        destroyOnHidden
+        centered
+      >
+        {deleting ? (
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-5 dark:border-rose-900 dark:bg-rose-950/30">
+            <div className="flex gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-rose-700 dark:bg-(--surface) dark:text-rose-300">
+                <AlertTriangle size={20} />
+              </span>
+              <div>
+                <h3 className="font-semibold text-(--foreground)">{deleting.name}</h3>
+                <p className="mt-1 text-sm leading-6 text-(--muted)">
+                  This will permanently delete this category and {deleting.transactionCount} linked
+                  {deleting.transactionCount === 1 ? ' transaction' : ' transactions'}.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <Button onClick={() => setDeleting(null)}>Cancel</Button>
+              <Button
+                danger
+                type="primary"
+                icon={<Trash2 size={15} />}
+                loading={deleteMutation.isPending}
+                onClick={() => handleDelete(deleting.id)}
+              >
+                Delete everything
+              </Button>
+            </div>
+          </div>
+        ) : null}
       </Modal>
     </div>
   )

@@ -43,6 +43,10 @@ export const useDeleteCategory = () => {
 
   return useMutation({
     mutationFn: deleteCategory,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: categoryKeys.all }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: categoryKeys.all })
+      queryClient.invalidateQueries({ queryKey: ['transactions'] })
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] })
+    },
   })
 }

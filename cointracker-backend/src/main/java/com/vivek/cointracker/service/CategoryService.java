@@ -15,6 +15,7 @@ import com.vivek.cointracker.entity.ProfileEntity;
 import com.vivek.cointracker.exception.CustomExceptions.DuplicateResourceException;
 import com.vivek.cointracker.exception.CustomExceptions.ResourceNotFoundException;
 import com.vivek.cointracker.repository.CategoryRepository;
+import com.vivek.cointracker.repository.TransactionRepository;
 import com.vivek.cointracker.util.ProfileMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final TransactionRepository transactionRepository;
     private final ProfileMapper profileMapper;
 
     @Transactional
@@ -39,7 +41,7 @@ public class CategoryService {
         try {
             categoryRepository.save(entity);
             categoryRepository.flush();
-            return profileMapper.mapToDto(entity);
+            return mapWithTransactionCount(entity);
         } catch (DataIntegrityViolationException ex) {
             throw new DuplicateResourceException("Category already exists");
         }
@@ -49,7 +51,7 @@ public class CategoryService {
     public List<CategoryResponse> getCategories(Long userId) {
         return categoryRepository.findByProfileId(userId)
                 .stream()
-                .map(profileMapper::mapToDto)
+                .map(this::mapWithTransactionCount)
                 .toList();
     }
 
@@ -57,7 +59,7 @@ public class CategoryService {
     public List<CategoryResponse> getCategoriesByType(Long userId, CategoryType type) {
         return categoryRepository.findByProfileIdAndType(userId, type)
                 .stream()
-                .map(profileMapper::mapToDto)
+                .map(this::mapWithTransactionCount)
                 .toList();
     }
 
@@ -68,7 +70,7 @@ public class CategoryService {
                 .findByIdAndProfileId(id, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
-        return profileMapper.mapToDto(category);
+        return mapWithTransactionCount(category);
     }
 
     @Transactional
@@ -91,7 +93,7 @@ public class CategoryService {
         }
 
         categoryRepository.flush();
-        return profileMapper.mapToDto(category);
+        return mapWithTransactionCount(category);
     }
 
     @Transactional
@@ -101,6 +103,16 @@ public class CategoryService {
                 .findByIdAndProfileId(id, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
+        transactionRepository.deleteByCategoryIdAndProfileId(id, userId);
         categoryRepository.delete(category);
+    }
+
+    private CategoryResponse mapWithTransactionCount(CategoryEntity category) {
+        CategoryResponse response = profileMapper.mapToDto(category);
+        response.setTransactionCount(
+                transactionRepository.countByCategoryIdAndProfileId(
+                        category.getId(),
+                        category.getProfile().getId()));
+        return response;
     }
 }

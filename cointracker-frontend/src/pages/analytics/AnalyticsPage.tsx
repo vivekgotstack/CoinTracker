@@ -142,7 +142,7 @@ const AnalyticsPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:gap-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:gap-4 py-3">
             <HeroMetric
               icon={<Target size={16} />}
               label="Savings Rate"
@@ -215,7 +215,7 @@ const AnalyticsPage = () => {
             </div>
           </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="pt-5 grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-(--border) p-3">
               <p className="text-xs text-(--muted)">Income entries</p>
               <p className="mt-1 text-xl font-bold text-(--foreground)">{stats.incomes.length}</p>
@@ -346,7 +346,7 @@ const HeroMetric = ({ icon, label, value, tone }: HeroMetricProps) => (
       <span>{label}</span>
     </div>
     <p
-      className={`mt-6 break-words text-2xl font-extrabold leading-tight ${
+      className={`mt-6 wrap-break-word text-2xl font-extrabold leading-tight ${
         tone === 'positive' ? 'text-emerald-700' : tone === 'negative' ? 'text-rose-700' : 'text-(--foreground)'
       }`}
     >

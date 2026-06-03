@@ -5,6 +5,7 @@ export type Category = {
   icon: string | null
   createdAt: string
   updatedAt: string
+  transactionCount: number
 }
 
 export type CategoryType = Category['type']

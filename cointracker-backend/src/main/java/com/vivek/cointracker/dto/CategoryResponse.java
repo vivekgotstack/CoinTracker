@@ -18,4 +18,5 @@ public class CategoryResponse {
     private String icon;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private long transactionCount;
 }
