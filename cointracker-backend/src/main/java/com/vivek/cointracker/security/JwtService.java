@@ -22,6 +22,8 @@ public class JwtService {
     @Value("${jwt.access-token-expiry}")
     private long accessTokenExpiry;
 
+    private static final long REFRESH_TOKEN_EXPIRY_SECONDS = 60L * 60 * 24 * 7;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -52,9 +54,13 @@ public class JwtService {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 7)) // 7 days
+                .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRY_SECONDS * 1000))
                 .signWith(getSignInKey())
                 .compact();
+    }
+
+    public long getRefreshTokenExpirySeconds() {
+        return REFRESH_TOKEN_EXPIRY_SECONDS;
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

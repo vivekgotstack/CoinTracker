@@ -2,13 +2,19 @@ import { Button, Descriptions, Form, Input, Tag, message } from 'antd'
 import { Bell, Edit3, EyeOff, Mail, Palette, ShieldCheck } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import EmojiField from '@/components/ui/EmojiField'
 import { useAuth } from '@/hooks/UseAuth'
 import { useUserPreferences } from '@/contexts/UserPreferencesContext'
 import { DISPLAY_NAME_MAX_LENGTH, getPreferredDisplayName } from '@/lib/user-display'
+import { getProfile, updateProfile } from '@/lib/profile-api'
+import { updateSessionUser } from '@/lib/auth-storage'
+import { queryClient } from '@/lib/query-client'
+import { getApiErrorMessage } from '@/lib/errors'
 
 type ProfileForm = {
   displayName: string
+  profileImageUrl: string
 }
 
 const ProfilePage = () => {
@@ -17,25 +23,42 @@ const ProfilePage = () => {
   const { user } = useAuth()
   const { preferences, updatePreferences } = useUserPreferences()
   const [isEditingName, setIsEditingName] = useState(false)
+  const profile = useQuery({ queryKey: ['profile'], queryFn: getProfile })
+  const profileMutation = useMutation({
+    mutationFn: updateProfile,
+    onSuccess: (savedProfile) => {
+      queryClient.setQueryData(['profile'], savedProfile)
+      updateSessionUser({
+        fullName: savedProfile.fullName,
+        profileImageUrl: savedProfile.profileImageUrl ?? undefined,
+      })
+      message.success('Profile updated')
+      setIsEditingName(false)
+    },
+    onError: (error) => {
+      message.error(getApiErrorMessage(error, 'Unable to update profile'))
+    },
+  })
 
   const displayName = getPreferredDisplayName(
-    preferences.displayName,
+    preferences.displayName || profile.data?.fullName || user?.fullName || '',
     user?.email
   ).slice(0, DISPLAY_NAME_MAX_LENGTH)
+  const profileImageUrl = profile.data?.profileImageUrl ?? user?.profileImageUrl
 
   const handleSaveName = (values: ProfileForm) => {
     const cleanedDisplayName = values.displayName.trim().slice(0, DISPLAY_NAME_MAX_LENGTH)
 
-    updatePreferences({
-      displayName: cleanedDisplayName,
+    profileMutation.mutate({
+      fullName: cleanedDisplayName,
+      profileImageUrl: values.profileImageUrl?.trim() || null,
     })
 
+    updatePreferences({ displayName: '' })
     form.setFieldsValue({
       displayName: cleanedDisplayName,
+      profileImageUrl: values.profileImageUrl?.trim() ?? '',
     })
-
-    setIsEditingName(false)
-    message.success('Display name updated')
   }
 
   return (
@@ -49,8 +72,12 @@ const ProfilePage = () => {
 
       <section className="overflow-hidden rounded-3xl bg-(--hero) p-6 shadow-sm sm:p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-          <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-4xl bg-(--surface) text-6xl shadow-xl">
-            {preferences.avatarEmoji}
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-4xl bg-(--surface) text-6xl shadow-xl">
+            {profileImageUrl ? (
+              <img src={profileImageUrl} alt="" className="h-full w-full object-cover" />
+            ) : (
+              preferences.avatarEmoji
+            )}
           </div>
 
           <div className="min-w-0 flex-1">
@@ -91,11 +118,11 @@ const ProfilePage = () => {
             <Form<ProfileForm>
               form={form}
               layout="vertical"
-              initialValues={{ displayName }}
+              initialValues={{ displayName, profileImageUrl: profileImageUrl ?? '' }}
               onFinish={handleSaveName}
               requiredMark={false}
             >
-              <div className="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
+              <div className="grid gap-3 sm:grid-cols-[1fr_1fr_auto_auto]">
                 <Form.Item
                   name="displayName"
                   className="mb-0"
@@ -114,7 +141,15 @@ const ProfilePage = () => {
                   />
                 </Form.Item>
 
-                <Button type="primary" htmlType="submit">
+                <Form.Item
+                  name="profileImageUrl"
+                  className="mb-0"
+                  rules={[{ type: 'url', message: 'Enter a valid image URL' }]}
+                >
+                  <Input placeholder="Profile image URL" />
+                </Form.Item>
+
+                <Button type="primary" htmlType="submit" loading={profileMutation.isPending}>
                   Save
                 </Button>
 
@@ -137,7 +172,7 @@ const ProfilePage = () => {
               <Button
                 icon={<Edit3 size={15} />}
                 onClick={() => {
-                  form.setFieldsValue({ displayName })
+                  form.setFieldsValue({ displayName, profileImageUrl: profileImageUrl ?? '' })
                   setIsEditingName(true)
                 }}
               >
@@ -159,7 +194,11 @@ const ProfilePage = () => {
               </Descriptions.Item>
 
               <Descriptions.Item label="Profile icon">
-                <span className="text-xl">{preferences.avatarEmoji}</span>
+                {profileImageUrl ? (
+                  <img src={profileImageUrl} alt="" className="h-10 w-10 rounded-xl object-cover" />
+                ) : (
+                  <span className="text-xl">{preferences.avatarEmoji}</span>
+                )}
               </Descriptions.Item>
             </Descriptions>
           </div>

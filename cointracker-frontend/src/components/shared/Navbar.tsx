@@ -24,7 +24,7 @@ const Navbar = ({ user }: NavbarProps) => {
   const queryClient = useQueryClient()
   const dashboard = useDashboard()
   const screens = Grid.useBreakpoint()
-  const displayName = getPreferredDisplayName(preferences.displayName, user?.email)
+  const displayName = getPreferredDisplayName(preferences.displayName || user?.fullName || '', user?.email)
   const totalIncome = Number(dashboard.data?.totalIncome ?? 0)
   const totalExpense = Number(dashboard.data?.totalExpense ?? 0)
   const savingsRate = totalIncome > 0 ? Math.max(0, ((totalIncome - totalExpense) / totalIncome) * 100) : 0
@@ -78,8 +78,12 @@ const Navbar = ({ user }: NavbarProps) => {
             className="group flex items-center gap-2 rounded-2xl bg-(--surface-muted) px-2 py-1.5 shadow-inner transition hover:-translate-y-0.5 hover:shadow-lg"
             aria-label="Open profile"
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-(--surface) text-xl">
-              {preferences.avatarEmoji}
+            <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-(--surface) text-xl">
+              {user?.profileImageUrl ? (
+                <img src={user.profileImageUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                preferences.avatarEmoji
+              )}
             </span>
             <span className="hidden max-w-28 truncate pr-1 text-sm font-semibold text-(--foreground) md:block">
               {displayName}

@@ -5,14 +5,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vivek.cointracker.dto.ProfilePreferencesRequest;
+import com.vivek.cointracker.dto.ProfilePreferencesResponse;
+import com.vivek.cointracker.dto.ProfileResponse;
+import com.vivek.cointracker.dto.ProfileUpdateRequest;
 import com.vivek.cointracker.service.ProfileService;
 
 @RestController
-@RequestMapping("/activate")
 public class ProfileController {
     private final ProfileService profileService;
 
@@ -23,7 +27,7 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-    @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(value = "/activate", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> activateProfile(@RequestParam String token) {
         boolean isActive = profileService.activateProfile(token);
         if (isActive) {
@@ -41,6 +45,28 @@ public class ProfileController {
                 "Back to CoinTracker",
                 frontendUrl + "/login",
                 false));
+    }
+
+    @GetMapping("/api/profile/preferences")
+    public ResponseEntity<ProfilePreferencesResponse> getPreferences() {
+        return ResponseEntity.ok(profileService.getCurrentPreferences());
+    }
+
+    @GetMapping("/api/profile")
+    public ResponseEntity<ProfileResponse> getCurrentProfile() {
+        return ResponseEntity.ok(profileService.getCurrentProfileResponse());
+    }
+
+    @PutMapping("/api/profile")
+    public ResponseEntity<ProfileResponse> updateCurrentProfile(
+            @RequestBody ProfileUpdateRequest request) {
+        return ResponseEntity.ok(profileService.updateCurrentProfile(request));
+    }
+
+    @PutMapping("/api/profile/preferences")
+    public ResponseEntity<ProfilePreferencesResponse> updatePreferences(
+            @RequestBody ProfilePreferencesRequest request) {
+        return ResponseEntity.ok(profileService.updateCurrentPreferences(request));
     }
 
     private String activationPage(

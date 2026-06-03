@@ -48,7 +48,26 @@ public class ProfileEntity implements UserDetails {
     @Column(nullable = false)
     private String fullName;
 
+    @Column(name = "profile_image_url")
     private String profileImageUrl;
+
+    @Column(name = "refresh_token", length = 700)
+    private String refreshToken;
+
+    @Column(name = "refresh_token_expiry")
+    private LocalDateTime refreshTokenExpiry;
+
+    @Column(name = "newsletter_subscribed", nullable = false)
+    @Builder.Default
+    private Boolean newsletterSubscribed = true;
+
+    @Column(name = "digest_enabled", nullable = false)
+    @Builder.Default
+    private Boolean digestEnabled = true;
+
+    @Column(name = "digest_frequency", nullable = false, length = 20)
+    @Builder.Default
+    private String digestFrequency = "weekly";
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -84,6 +103,30 @@ public class ProfileEntity implements UserDetails {
     public void clearResetToken() {
         this.resetToken = null;
         this.resetTokenExpiry = null;
+    }
+
+    public void saveRefreshToken(String token, LocalDateTime expiry) {
+        this.refreshToken = token;
+        this.refreshTokenExpiry = expiry;
+    }
+
+    public void updateEmailPreferences(Boolean newsletterSubscribed, Boolean digestEnabled, String digestFrequency) {
+        if (newsletterSubscribed != null) {
+            this.newsletterSubscribed = newsletterSubscribed;
+        }
+        if (digestEnabled != null) {
+            this.digestEnabled = digestEnabled;
+        }
+        if (digestFrequency != null) {
+            this.digestFrequency = digestFrequency;
+        }
+    }
+
+    public void updateProfile(String fullName, String profileImageUrl) {
+        if (fullName != null && !fullName.isBlank()) {
+            this.fullName = fullName;
+        }
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void changePassword(String encodedPassword) {

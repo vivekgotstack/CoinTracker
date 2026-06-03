@@ -1,4 +1,4 @@
-import type { AuthSession } from "@/types/auth"
+import type { AuthSession, AuthUser } from "@/types/auth"
 
 const AUTH_KEY = import.meta.env.VITE_AUTH_STORAGE_KEY ?? 'cointracker_session'
 export const AUTH_SESSION_CHANGED_EVENT = 'cointracker:auth-session-changed'
@@ -28,6 +28,19 @@ export const getSession = (): AuthSession | null => {
 export const clearSession = () => {
   localStorage.removeItem(AUTH_KEY)
   emitSessionChanged()
+}
+
+export const updateSessionUser = (user: Partial<AuthUser>) => {
+  const session = getSession()
+  if (!session?.user) return
+
+  saveSession({
+    ...session,
+    user: {
+      ...session.user,
+      ...user,
+    },
+  })
 }
 
 export const getAccessToken = () => getSession()?.accessToken ?? null

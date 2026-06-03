@@ -1,7 +1,26 @@
 export type AuthUser = {
   id: number
   email: string
+  fullName?: string
   role: 'USER' | 'ADMIN'
+  profileImageUrl?: string
+}
+
+export type DigestFrequency = 'daily' | 'weekly' | 'monthly'
+
+export type ServerPreferences = {
+  newsletterSubscribed: boolean
+  digestEnabled: boolean
+  digestFrequency: DigestFrequency
+}
+
+export type Profile = {
+  id: number
+  email: string
+  fullName: string
+  profileImageUrl?: string | null
+  createdAt: string
+  updatedAt: string
 }
 
 export type AuthSession = {

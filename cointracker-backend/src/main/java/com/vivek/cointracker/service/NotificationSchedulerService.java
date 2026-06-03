@@ -3,6 +3,7 @@ package com.vivek.cointracker.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,7 @@ public class NotificationSchedulerService {
         log.info("Started daily expense reminder job");
 
         processUsers(
+                pageable -> profileRepository.findByActiveTrueAndDigestEnabledTrueAndDigestFrequency("daily", pageable),
                 user -> notificationService.sendDailyExpenseReminder(user));
 
         log.info("Completed daily expense reminder job");
@@ -47,7 +49,10 @@ public class NotificationSchedulerService {
 
         log.info("Started daily expense summary job");
 
-        processUsers(user -> {
+        processUsers(
+                pageable -> profileRepository.findByActiveTrueAndNewsletterSubscribedTrueAndDigestFrequency("daily",
+                        pageable),
+                user -> {
 
             LocalDate today = LocalDate.now();
 
@@ -72,12 +77,14 @@ public class NotificationSchedulerService {
                     totalExpense,
                     totalIncome,
                     transactionCount);
-        });
+                });
 
         log.info("Completed daily expense summary job");
     }
 
-    private void processUsers(Consumer<ProfileEntity> consumer) {
+    private void processUsers(
+            Function<Pageable, Page<ProfileEntity>> pageLoader,
+            Consumer<ProfileEntity> consumer) {
 
         Pageable pageable = PageRequest.of(0, 100);
 
@@ -85,7 +92,7 @@ public class NotificationSchedulerService {
 
         do {
 
-            page = profileRepository.findAll(pageable);
+            page = pageLoader.apply(pageable);
 
             page.getContent().forEach(consumer);
 

@@ -23,6 +23,8 @@ public class AuthenticationResponse {
     public static class UserInfo{
         private Long id;
         private String email;
+        private String fullName;
         private Role role;
+        private String profileImageUrl;
     }
 }

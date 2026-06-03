@@ -75,6 +75,7 @@ public class AuthenticationService {
                 return buildRegisterResponse(saved);
         }
 
+        @Transactional
         public AuthenticationResponse loginProfile(LoginRequest request) {
 
                 try {
@@ -102,14 +103,15 @@ public class AuthenticationService {
                 }
 
                 String accessToken = jwtService.generateToken(user);
-                String refreshToken = jwtService.generateRefreshToken(user); // You already put expiration time on
-                                                                             // backend
+                String refreshToken = jwtService.generateRefreshToken(user);
+                user.saveRefreshToken(
+                                refreshToken,
+                                LocalDateTime.now().plusSeconds(jwtService.getRefreshTokenExpirySeconds()));
 
-                return buildLoginResponse(user, accessToken, refreshToken); // These tokens will get strored on client
-                                                                            // side
+                return buildLoginResponse(user, accessToken, refreshToken);
         }
 
-        @Transactional(readOnly = true)
+        @Transactional
         public AuthenticationResponse refreshToken(String refreshToken) {
 
                 String email;
@@ -125,9 +127,17 @@ public class AuthenticationService {
                 if (!jwtService.isTokenValid(refreshToken, user)) {
                         throw new UnauthorizedException("Refresh token expired or invalid");
                 }
+                if (!refreshToken.equals(user.getRefreshToken()) ||
+                                user.getRefreshTokenExpiry() == null ||
+                                user.getRefreshTokenExpiry().isBefore(LocalDateTime.now())) {
+                        throw new UnauthorizedException("Refresh token expired or invalid");
+                }
 
                 String newAccessToken = jwtService.generateToken(user);
                 String newRefreshToken = jwtService.generateRefreshToken(user);
+                user.saveRefreshToken(
+                                newRefreshToken,
+                                LocalDateTime.now().plusSeconds(jwtService.getRefreshTokenExpirySeconds()));
 
                 return AuthenticationResponse.builder()
                                 .accessToken(newAccessToken)
@@ -138,7 +148,9 @@ public class AuthenticationService {
                                 .user(AuthenticationResponse.UserInfo.builder()
                                                 .id(user.getId())
                                                 .email(user.getEmail())
+                                                .fullName(user.getFullName())
                                                 .role(user.getRole())
+                                                .profileImageUrl(user.getProfileImageUrl())
                                                 .build())
                                 .build();
         }
@@ -189,7 +201,9 @@ public class AuthenticationService {
                                 .user(AuthenticationResponse.UserInfo.builder()
                                                 .id(user.getId())
                                                 .email(user.getEmail())
+                                                .fullName(user.getFullName())
                                                 .role(user.getRole())
+                                                .profileImageUrl(user.getProfileImageUrl())
                                                 .build())
                                 .build();
         }
@@ -207,7 +221,9 @@ public class AuthenticationService {
                                 .user(AuthenticationResponse.UserInfo.builder()
                                                 .id(user.getId())
                                                 .email(user.getEmail())
+                                                .fullName(user.getFullName())
                                                 .role(user.getRole())
+                                                .profileImageUrl(user.getProfileImageUrl())
                                                 .build())
                                 .build();
         }
