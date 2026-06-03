@@ -92,9 +92,6 @@ public class NotificationService {
     public void sendDailyExpenseReminder(ProfileEntity user) {
 
         try {
-
-            String dashboardLink = backendUrl + "/dashboard";
-
             String body = """
                     <!DOCTYPE html>
                     <html>
@@ -236,7 +233,7 @@ public class NotificationService {
                     </html>
                     """.formatted(
                     user.getFullName(),
-                    dashboardLink);
+                    frontendUrl);
 
             emailService.sendEmail(
                     user.getEmail(),
@@ -264,9 +261,6 @@ public class NotificationService {
             long transactionCount) {
 
         try {
-
-            String dashboardLink = backendUrl + "/dashboard";
-
             BigDecimal balance = totalIncome.subtract(totalExpense);
 
             String body = """
@@ -487,7 +481,7 @@ public class NotificationService {
                     totalExpense,
                     balance,
                     transactionCount,
-                    dashboardLink);
+                    frontendUrl);
 
             emailService.sendEmail(
                     user.getEmail(),
